@@ -43,6 +43,7 @@
             color: #fff;
             padding: 10px;
             background-color: #444;
+            margin-bottom: 20px;
         }
         .btn-copy:hover, #submit-btn:hover, #add-turn-button:hover {
             opacity: 1;
@@ -103,13 +104,13 @@
 
                 <input name="turn-marker" type="hidden" value="TURN${turnCounter}"/>
 
-                <label for="jamie-turn${turnCounter}">Jamie:</label>
-                <textarea name="jamie-turn${turnCounter}" id="jamie-turn${turnCounter}"></textarea>
-                <button class="btn-copy" type="button" onclick="copyToClipboard('jamie-turn${turnCounter}')">Copy</button>
+                <label for="user-turn${turnCounter}">User:</label>
+                <textarea name="user-turn${turnCounter}" id="user-turn${turnCounter}"></textarea>
+                <button class="btn-copy" type="button" onclick="copyToClipboard('user-turn${turnCounter}')">Copy</button>
 
-                <label for="alex-turn${turnCounter}">Alex:</label>
-                <textarea name="alex-turn${turnCounter}" id="alex-turn${turnCounter}"></textarea>
-                <button class="btn-copy" type="button" onclick="copyToClipboard('alex-turn${turnCounter}')">Copy</button>
+                <label for="bot-turn${turnCounter}">Bot:</label>
+                <textarea name="bot-turn${turnCounter}" id="bot-turn${turnCounter}"></textarea>
+                <button class="btn-copy" type="button" onclick="copyToClipboard('bot-turn${turnCounter}')">Copy</button>
 
                 <label for="source-link-turn${turnCounter}">Source Link:</label>
                 <input name="source-link-turn${turnCounter}" id="source-link-turn${turnCounter}" type="text"/>
