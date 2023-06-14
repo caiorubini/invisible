@@ -3,10 +3,12 @@
 <head>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        body {
+        body, input, textarea, button {
             font-family: 'Space Grotesk', sans-serif;
-            background-color: #222;
             color: #fff;
+        }
+        body {
+            background-color: #222;
             padding: 20px;
         }
         .form-container {
@@ -32,7 +34,7 @@
             background-color: #333;
             color: #fff;
         }
-        .btn-copy {
+        .btn-copy, #submit-btn, #add-turn-button {
             margin-top: 10px;
             border: none;
             background: none;
@@ -41,17 +43,24 @@
             padding: 10px;
             background-color: #444;
         }
-        .btn-copy:hover {
+        .btn-copy:hover, #submit-btn:hover, #add-turn-button:hover {
             opacity: 1;
         }
-        #submit-btn {
-            display: none;
+        #countdown {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 20px;
         }
     </style>
 </head>
 <body>
+    <div id="countdown">1:00:00</div>
+
     <div class="form-container">
         <form action="https://script.google.com/macros/s/AKfycbx_wQwT3SdrHhQPWemOuO1ntzgI8StT6hK9uMXHtxq_JeGpIVvczPvCy3m5Vs_DpDT5/exec" method="POST">
+            <!-- Let's add markers for Google Apps Script -->
+            <input name="form-marker" type="hidden" value="NEW_SUBMISSION"/>
+            
             <div class="input-field">
                 <label for="user-personality">User Personality:</label>
                 <input name="user-personality" id="user-personality" type="text"/>
@@ -89,6 +98,8 @@
                 <div class="input-field" id="turn${turnCounter}">
                     <h2>Turn ${turnCounter}</h2>
 
+                    <input name="turn-marker" type="hidden" value="TURN${turnCounter}"/>
+
                     <label for="jamie-turn${turnCounter}">Jamie:</label>
                     <textarea name="jamie-turn${turnCounter}" id="jamie-turn${turnCounter}"></textarea>
                     <button class="btn-copy" type="button" onclick="copyToClipboard('jamie-turn${turnCounter}')">Copy</button>
@@ -108,11 +119,6 @@
             `;
 
             document.getElementById('turns-container').innerHTML += turnHTML;
-            
-            // Unhide the submit button once 5 turns have been added
-            if (turnCounter >= 5) {
-                document.getElementById('submit-btn').style.display = 'block';
-            }
         });
 
         function copyToClipboard(elementId) {
@@ -121,6 +127,19 @@
             copyText.setSelectionRange(0, 99999); /* For mobile devices */
             document.execCommand("copy");
         }
+
+        // 1 hour countdown
+        let countdown = 60 * 60;
+        let timerId = setInterval(function() {
+            countdown--;
+            let min = Math.floor(countdown / 60);
+            let sec = countdown % 60;
+            document.getElementById('countdown').innerText = `${min}:${sec < 10 ? '0' : ''}${sec}`;
+
+            if(countdown <= 0) {
+                clearInterval(timerId);
+            }
+        }, 1000);
     </script>
 </body>
 </html>
