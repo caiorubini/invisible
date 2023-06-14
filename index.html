@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #222;
+            color: #fff;
         }
         .form-container {
-            width: 50%;
+            width: 80%;
             margin: auto;
             padding: 20px;
         }
@@ -17,9 +20,17 @@
             font-size: 16px;
             position: relative;
         }
+        .input-field label {
+            font-weight: 700;
+            color: #fff;
+        }
         .input-field input, .input-field textarea {
             width: calc(100% - 20px);
-            padding-right: 20px; /* to make room for the copy button */
+            padding-right: 20px;
+            padding: 10px;
+            border: none;
+            background-color: #333;
+            color: #fff;
         }
         .btn-copy {
             position: absolute;
@@ -29,7 +40,9 @@
             border: none;
             background: none;
             cursor: pointer;
-            opacity: 0.5;
+            color: #fff;
+            padding: 10px;
+            background-color: #444;
         }
         .btn-copy:hover {
             opacity: 1;
@@ -42,19 +55,19 @@
             <div class="input-field">
                 <label for="user-personality">User Personality: 👤</label>
                 <input name="user-personality" id="user-personality" type="text"/>
-                <button class="btn-copy" type="button" onclick="copyToClipboard('user-personality')">📋</button>
+                <button class="btn-copy" type="button" onclick="copyToClipboard('user-personality')">Copy</button>
             </div>
 
             <div class="input-field">
                 <label for="objective">Objective: 🎯</label>
                 <input name="objective" id="objective" type="text"/>
-                <button class="btn-copy" type="button" onclick="copyToClipboard('objective')">📋</button>
+                <button class="btn-copy" type="button" onclick="copyToClipboard('objective')">Copy</button>
             </div>
 
             <div class="input-field">
                 <label for="backstory">Backstory: 📚</label>
                 <input name="backstory" id="backstory" type="text"/>
-                <button class="btn-copy" type="button" onclick="copyToClipboard('backstory')">📋</button>
+                <button class="btn-copy" type="button" onclick="copyToClipboard('backstory')">Copy</button>
             </div>
 
             <div id="turns-container">
@@ -75,21 +88,22 @@
             let turnHTML = `
                 <div class="input-field" id="turn${turnCounter}">
                     <h2>Turn ${turnCounter}</h2>
-                    <label for="jamie-turn${turnCounter}">Jamie: 👤</label>
-                    <textarea name="jamie-turn${turnCounter}" id="jamie-turn${turnCounter}"></textarea>
-                    <button class="btn-copy" type="button" onclick="copyToClipboard('jamie-turn${turnCounter}')">📋</button>
 
-                    <label for="alex-turn${turnCounter}">Alex: 👤</label>
+                    <label for="jamie-turn${turnCounter}">Jamie: 🗣️</label>
+                    <textarea name="jamie-turn${turnCounter}" id="jamie-turn${turnCounter}"></textarea>
+                    <button class="btn-copy" type="button" onclick="copyToClipboard('jamie-turn${turnCounter}')">Copy</button>
+
+                    <label for="alex-turn${turnCounter}">Alex: 🗣️</label>
                     <textarea name="alex-turn${turnCounter}" id="alex-turn${turnCounter}"></textarea>
-                    <button class="btn-copy" type="button" onclick="copyToClipboard('alex-turn${turnCounter}')">📋</button>
+                    <button class="btn-copy" type="button" onclick="copyToClipboard('alex-turn${turnCounter}')">Copy</button>
 
                     <label for="source-link-turn${turnCounter}">Source Link: 🔗</label>
                     <input name="source-link-turn${turnCounter}" id="source-link-turn${turnCounter}" type="text"/>
-                    <button class="btn-copy" type="button" onclick="copyToClipboard('source-link-turn${turnCounter}')">📋</button>
+                    <button class="btn-copy" type="button" onclick="copyToClipboard('source-link-turn${turnCounter}')">Copy</button>
 
                     <label for="source-research-turn${turnCounter}">Source Research: 📖</label>
                     <textarea name="source-research-turn${turnCounter}" id="source-research-turn${turnCounter}"></textarea>
-                    <button class="btn-copy" type="button" onclick="copyToClipboard('source-research-turn${turnCounter}')">📋</button>
+                    <button class="btn-copy" type="button" onclick="copyToClipboard('source-research-turn${turnCounter}')">Copy</button>
                 </div>
             `;
 
