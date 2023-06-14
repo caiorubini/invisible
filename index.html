@@ -1,145 +1,130 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        body, input, textarea, button {
-            font-family: 'Space Grotesk', sans-serif;
-            color: #fff;
-        }
         body {
-            background-color: #222;
-            padding: 20px;
-        }
-        .form-container {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #222222;
+            color: #f5f5f5;
+            width: 90%;
             max-width: 700px;
-            width: 100%;
-            margin: auto;
+            margin: 0 auto;
             padding: 20px;
+            box-sizing: border-box;
         }
+
         .input-field {
-            width: 100%;
             margin-bottom: 20px;
-            font-size: 16px;
+            padding: 20px;
+            background-color: #333333;
+            border-radius: 10px;
         }
-        .input-field label {
-            font-weight: 700;
-            color: #fff;
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin: 10px 0;
+            padding: 10px;
+            box-sizing: border-box;
+            font-family: 'Space Grotesk', sans-serif;
+            resize: none;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            box-sizing: border-box;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        button {
             display: block;
-            margin-bottom: 10px;
-        }
-        .input-field input, .input-field textarea {
             width: 100%;
             padding: 10px;
-            border: none;
-            background-color: #333;
-            color: #fff;
+            box-sizing: border-box;
+            font-family: 'Space Grotesk', sans-serif;
+            margin: 10px 0;
         }
-        .btn-copy, #submit-btn, #add-turn-button {
-            margin-top: 10px;
-            border: none;
-            background: none;
-            cursor: pointer;
-            color: #fff;
-            padding: 10px;
-            background-color: #444;
-            margin-bottom: 20px;
-        }
-        .btn-copy:hover, #submit-btn:hover, #add-turn-button:hover {
-            opacity: 1;
-        }
+
         #countdown {
-            text-align: center;
-            margin-bottom: 20px;
             font-size: 20px;
             font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
-    <div id="countdown">1:00:00</div>
+    <div id="countdown"></div>
 
-    <div class="form-container">
-        <form action="https://script.google.com/macros/s/AKfycbx_wQwT3SdrHhQPWemOuO1ntzgI8StT6hK9uMXHtxq_JeGpIVvczPvCy3m5Vs_DpDT5/exec" method="POST">
-            <input name="form-marker" type="hidden" value="NEW_SUBMISSION"/>
-            
-            <div class="input-field">
-                <label for="user-personality">User Personality:</label>
-                <input name="user-personality" id="user-personality" type="text"/>
-                <button class="btn-copy" type="button" onclick="copyToClipboard('user-personality')">Copy</button>
-            </div>
+    <form action="https://script.google.com/macros/s/AKfycbzdVUvKMmVr5vuCtJ-LHt3TI71KvZcxzBmaqSsUTuVy8K5MfEEqlAjvDA7YN9B8Ly-k/exec" method="POST">
+        <div class="input-field">
+            <label for="user-personality">User Personality:</label>
+            <input type="text" name="user-personality" id="user-personality" required>
+        </div>
+        <div class="input-field">
+            <label for="objective">Objective:</label>
+            <input type="text" name="objective" id="objective" required>
+        </div>
+        <div class="input-field">
+            <label for="backstory">Backstory:</label>
+            <input type="text" name="backstory" id="backstory" required>
+        </div>
 
-            <div class="input-field">
-                <label for="objective">Objective:</label>
-                <input name="objective" id="objective" type="text"/>
-                <button class="btn-copy" type="button" onclick="copyToClipboard('objective')">Copy</button>
-            </div>
+        <div id="turns-container"></div>
 
-            <div class="input-field">
-                <label for="backstory">Backstory:</label>
-                <input name="backstory" id="backstory" type="text"/>
-                <button class="btn-copy" type="button" onclick="copyToClipboard('backstory')">Copy</button>
-            </div>
-
-            <div id="turns-container">
-                <!-- Turns will be added here dynamically -->
-            </div>
-
-            <button type="button" id="add-turn-button">Add Turn</button>
-            <button type="submit" id="submit-btn">Submit</button>
-        </form>
-    </div>
+        <button id="add-turn-button" type="button">Add Turn</button>
+        <button type="submit">Submit</button>
+    </form>
 
     <script>
-        let turnCounter = 0;
-
         document.getElementById('add-turn-button').addEventListener('click', function() {
-            turnCounter++;
+            let turnCounter = document.querySelectorAll('.input-field').length - 2;
 
             let turnHTML = document.createElement('div');
             turnHTML.className = 'input-field';
-            turnHTML.id = 'turn' + turnCounter;
             turnHTML.innerHTML = `
-                <h2>Turn ${turnCounter}</h2>
-
-                <input name="turn-marker" type="hidden" value="TURN${turnCounter}"/>
-
+                <h2>Turn ${turnCounter + 1}</h2>
                 <label for="user-turn${turnCounter}">User:</label>
-                <textarea name="user-turn${turnCounter}" id="user-turn${turnCounter}"></textarea>
-                <button class="btn-copy" type="button" onclick="copyToClipboard('user-turn${turnCounter}')">Copy</button>
-
+                <textarea name="user-turn${turnCounter}" id="user-turn${turnCounter}" required></textarea>
+                <button type="button" onclick="copyToClipboard('user-turn${turnCounter}')">Copy</button>
                 <label for="bot-turn${turnCounter}">Bot:</label>
-                <textarea name="bot-turn${turnCounter}" id="bot-turn${turnCounter}"></textarea>
-                <button class="btn-copy" type="button" onclick="copyToClipboard('bot-turn${turnCounter}')">Copy</button>
-
-                <label for="source-link-turn${turnCounter}">Source Link:</label>
-                <input name="source-link-turn${turnCounter}" id="source-link-turn${turnCounter}" type="text"/>
-                <button class="btn-copy" type="button" onclick="copyToClipboard('source-link-turn${turnCounter}')">Copy</button>
-
-                <label for="source-research-turn${turnCounter}">Source Research:</label>
-                <textarea name="source-research-turn${turnCounter}" id="source-research-turn${turnCounter}"></textarea>
-                <button class="btn-copy" type="button" onclick="copyToClipboard('source-research-turn${turnCounter}')">Copy</button>
+                <textarea name="bot-turn${turnCounter}" id="bot-turn${turnCounter}" required></textarea>
+                <button type="button" onclick="copyToClipboard('bot-turn${turnCounter}')">Copy</button>
+                <label for="source-link${turnCounter}">Source Link:</label>
+                <input type="text" name="source-link${turnCounter}" id="source-link${turnCounter}" required>
+                <label for="source-research${turnCounter}">Source Research:</label>
+                <textarea name="source-research${turnCounter}" id="source-research${turnCounter}" required></textarea>
+                <button type="button" onclick="copyToClipboard('source-research${turnCounter}')">Copy</button>
             `;
 
             document.getElementById('turns-container').appendChild(turnHTML);
         });
 
         function copyToClipboard(elementId) {
-            let copyText = document.getElementById(elementId);
+            var copyText = document.getElementById(elementId);
             copyText.select();
-            copyText.setSelectionRange(0, 99999); /* For mobile devices */
             document.execCommand("copy");
         }
 
-        let countdown = 60 * 60;
-        let timerId = setInterval(function() {
-            countdown--;
-            let min = Math.floor(countdown / 60);
-            let sec = countdown % 60;
-            document.getElementById('countdown').innerText = `${min}:${sec < 10 ? '0' : ''}${sec}`;
+        // 1-hour countdown timer
+        var countDownDate = new Date().getTime() + 60 * 60 * 1000;
 
-            if(countdown <= 0) {
-                clearInterval(timerId);
+        var x = setInterval(function() {
+            var now = new Date().getTime();
+            var distance = countDownDate - now;
+
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").innerHTML = "Time left: " + minutes + "m " + seconds + "s";
+
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("countdown").innerHTML = "TIME UP";
             }
         }, 1000);
     </script>
