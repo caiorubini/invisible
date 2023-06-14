@@ -12,7 +12,8 @@
             padding: 20px;
         }
         .form-container {
-            width: 80%;
+            max-width: 700px;
+            width: 100%;
             margin: auto;
             padding: 20px;
         }
@@ -50,6 +51,7 @@
             text-align: center;
             margin-bottom: 20px;
             font-size: 20px;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -58,7 +60,6 @@
 
     <div class="form-container">
         <form action="https://script.google.com/macros/s/AKfycbx_wQwT3SdrHhQPWemOuO1ntzgI8StT6hK9uMXHtxq_JeGpIVvczPvCy3m5Vs_DpDT5/exec" method="POST">
-            <!-- Let's add markers for Google Apps Script -->
             <input name="form-marker" type="hidden" value="NEW_SUBMISSION"/>
             
             <div class="input-field">
@@ -94,31 +95,32 @@
         document.getElementById('add-turn-button').addEventListener('click', function() {
             turnCounter++;
 
-            let turnHTML = `
-                <div class="input-field" id="turn${turnCounter}">
-                    <h2>Turn ${turnCounter}</h2>
+            let turnHTML = document.createElement('div');
+            turnHTML.className = 'input-field';
+            turnHTML.id = 'turn' + turnCounter;
+            turnHTML.innerHTML = `
+                <h2>Turn ${turnCounter}</h2>
 
-                    <input name="turn-marker" type="hidden" value="TURN${turnCounter}"/>
+                <input name="turn-marker" type="hidden" value="TURN${turnCounter}"/>
 
-                    <label for="jamie-turn${turnCounter}">Jamie:</label>
-                    <textarea name="jamie-turn${turnCounter}" id="jamie-turn${turnCounter}"></textarea>
-                    <button class="btn-copy" type="button" onclick="copyToClipboard('jamie-turn${turnCounter}')">Copy</button>
+                <label for="jamie-turn${turnCounter}">Jamie:</label>
+                <textarea name="jamie-turn${turnCounter}" id="jamie-turn${turnCounter}"></textarea>
+                <button class="btn-copy" type="button" onclick="copyToClipboard('jamie-turn${turnCounter}')">Copy</button>
 
-                    <label for="alex-turn${turnCounter}">Alex:</label>
-                    <textarea name="alex-turn${turnCounter}" id="alex-turn${turnCounter}"></textarea>
-                    <button class="btn-copy" type="button" onclick="copyToClipboard('alex-turn${turnCounter}')">Copy</button>
+                <label for="alex-turn${turnCounter}">Alex:</label>
+                <textarea name="alex-turn${turnCounter}" id="alex-turn${turnCounter}"></textarea>
+                <button class="btn-copy" type="button" onclick="copyToClipboard('alex-turn${turnCounter}')">Copy</button>
 
-                    <label for="source-link-turn${turnCounter}">Source Link:</label>
-                    <input name="source-link-turn${turnCounter}" id="source-link-turn${turnCounter}" type="text"/>
-                    <button class="btn-copy" type="button" onclick="copyToClipboard('source-link-turn${turnCounter}')">Copy</button>
+                <label for="source-link-turn${turnCounter}">Source Link:</label>
+                <input name="source-link-turn${turnCounter}" id="source-link-turn${turnCounter}" type="text"/>
+                <button class="btn-copy" type="button" onclick="copyToClipboard('source-link-turn${turnCounter}')">Copy</button>
 
-                    <label for="source-research-turn${turnCounter}">Source Research:</label>
-                    <textarea name="source-research-turn${turnCounter}" id="source-research-turn${turnCounter}"></textarea>
-                    <button class="btn-copy" type="button" onclick="copyToClipboard('source-research-turn${turnCounter}')">Copy</button>
-                </div>
+                <label for="source-research-turn${turnCounter}">Source Research:</label>
+                <textarea name="source-research-turn${turnCounter}" id="source-research-turn${turnCounter}"></textarea>
+                <button class="btn-copy" type="button" onclick="copyToClipboard('source-research-turn${turnCounter}')">Copy</button>
             `;
 
-            document.getElementById('turns-container').innerHTML += turnHTML;
+            document.getElementById('turns-container').appendChild(turnHTML);
         });
 
         function copyToClipboard(elementId) {
@@ -128,7 +130,6 @@
             document.execCommand("copy");
         }
 
-        // 1 hour countdown
         let countdown = 60 * 60;
         let timerId = setInterval(function() {
             countdown--;
