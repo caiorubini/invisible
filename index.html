@@ -63,15 +63,18 @@
     <form action="https://script.google.com/macros/s/AKfycbzdVUvKMmVr5vuCtJ-LHt3TI71KvZcxzBmaqSsUTuVy8K5MfEEqlAjvDA7YN9B8Ly-k/exec" method="POST">
         <div class="input-field">
             <label for="user-personality">User Personality:</label>
-            <input type="text" name="user-personality" id="user-personality" required>
+            <textarea name="user-personality" id="user-personality" required></textarea>
+            <button type="button" onclick="copyToClipboard('user-personality')">Copy</button>
         </div>
         <div class="input-field">
             <label for="objective">Objective:</label>
-            <input type="text" name="objective" id="objective" required>
+            <textarea name="objective" id="objective" required></textarea>
+            <button type="button" onclick="copyToClipboard('objective')">Copy</button>
         </div>
         <div class="input-field">
             <label for="backstory">Backstory:</label>
-            <input type="text" name="backstory" id="backstory" required>
+            <textarea name="backstory" id="backstory" required></textarea>
+            <button type="button" onclick="copyToClipboard('backstory')">Copy</button>
         </div>
 
         <div id="turns-container"></div>
@@ -82,23 +85,23 @@
 
     <script>
         document.getElementById('add-turn-button').addEventListener('click', function() {
-            let turnCounter = document.querySelectorAll('.input-field').length - 2;
+            let turnCounter = document.querySelectorAll('.input-field').length - 3;
 
-            let turnHTML = document.createElement('div');
-            turnHTML.className = 'input-field';
+            var turnHTML = document.createElement('div');
+            turnHTML.classList.add('input-field');
             turnHTML.innerHTML = `
-                <h2>Turn ${turnCounter + 1}</h2>
-                <label for="user-turn${turnCounter}">User:</label>
-                <textarea name="user-turn${turnCounter}" id="user-turn${turnCounter}" required></textarea>
-                <button type="button" onclick="copyToClipboard('user-turn${turnCounter}')">Copy</button>
-                <label for="bot-turn${turnCounter}">Bot:</label>
-                <textarea name="bot-turn${turnCounter}" id="bot-turn${turnCounter}" required></textarea>
-                <button type="button" onclick="copyToClipboard('bot-turn${turnCounter}')">Copy</button>
-                <label for="source-link${turnCounter}">Source Link:</label>
-                <input type="text" name="source-link${turnCounter}" id="source-link${turnCounter}" required>
-                <label for="source-research${turnCounter}">Source Research:</label>
-                <textarea name="source-research${turnCounter}" id="source-research${turnCounter}" required></textarea>
-                <button type="button" onclick="copyToClipboard('source-research${turnCounter}')">Copy</button>
+                <label for="user-turn${turnCounter + 1}">Turn ${turnCounter + 1} - User:</label>
+                <textarea name="user-turn${turnCounter + 1}" id="user-turn${turnCounter + 1}" required></textarea>
+                <button type="button" onclick="copyToClipboard('user-turn${turnCounter + 1}')">Copy</button>
+                <label for="bot-turn${turnCounter + 1}">Bot:</label>
+                <textarea name="bot-turn${turnCounter + 1}" id="bot-turn${turnCounter + 1}" required></textarea>
+                <button type="button" onclick="copyToClipboard('bot-turn${turnCounter + 1}')">Copy</button>
+                <label for="source-link${turnCounter + 1}">Source Link:</label>
+                <input type="text" name="source-link${turnCounter + 1}" id="source-link${turnCounter + 1}" required>
+                <button type="button" onclick="copyToClipboard('source-link${turnCounter + 1}')">Copy</button>
+                <label for="source-research${turnCounter + 1}">Source Research:</label>
+                <textarea name="source-research${turnCounter + 1}" id="source-research${turnCounter + 1}" required></textarea>
+                <button type="button" onclick="copyToClipboard('source-research${turnCounter + 1}')">Copy</button>
             `;
 
             document.getElementById('turns-container').appendChild(turnHTML);
@@ -107,6 +110,7 @@
         function copyToClipboard(elementId) {
             var copyText = document.getElementById(elementId);
             copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
             document.execCommand("copy");
         }
 
