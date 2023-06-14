@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .form-container {
+            width: 50%;
+            margin: auto;
+            padding: 20px;
+        }
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            position: relative;
+        }
+        .input-field input, .input-field textarea {
+            width: calc(100% - 20px);
+            padding-right: 20px; /* to make room for the copy button */
+        }
+        .btn-copy {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: none;
+            cursor: pointer;
+            opacity: 0.5;
+        }
+        .btn-copy:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <form action="https://script.google.com/macros/s/AKfycbx_wQwT3SdrHhQPWemOuO1ntzgI8StT6hK9uMXHtxq_JeGpIVvczPvCy3m5Vs_DpDT5/exec" method="POST">
+            <div class="input-field">
+                <label for="user-personality">User Personality: 👤</label>
+                <input name="user-personality" id="user-personality" type="text"/>
+                <button class="btn-copy" type="button" onclick="copyToClipboard('user-personality')">📋</button>
+            </div>
+
+            <div class="input-field">
+                <label for="objective">Objective: 🎯</label>
+                <input name="objective" id="objective" type="text"/>
+                <button class="btn-copy" type="button" onclick="copyToClipboard('objective')">📋</button>
+            </div>
+
+            <div class="input-field">
+                <label for="backstory">Backstory: 📚</label>
+                <input name="backstory" id="backstory" type="text"/>
+                <button class="btn-copy" type="button" onclick="copyToClipboard('backstory')">📋</button>
+            </div>
+
+            <div id="turns-container">
+                <!-- Turns will be added here dynamically -->
+            </div>
+
+            <button type="button" id="add-turn-button">Add Turn</button>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        let turnCounter = 0;
+
+        document.getElementById('add-turn-button').addEventListener('click', function() {
+            turnCounter++;
+
+            let turnHTML = `
+                <div class="input-field" id="turn${turnCounter}">
+                    <h2>Turn ${turnCounter}</h2>
+                    <label for="jamie-turn${turnCounter}">Jamie: 👤</label>
+                    <textarea name="jamie-turn${turnCounter}" id="jamie-turn${turnCounter}"></textarea>
+                    <button class="btn-copy" type="button" onclick="copyToClipboard('jamie-turn${turnCounter}')">📋</button>
+
+                    <label for="alex-turn${turnCounter}">Alex: 👤</label>
+                    <textarea name="alex-turn${turnCounter}" id="alex-turn${turnCounter}"></textarea>
+                    <button class="btn-copy" type="button" onclick="copyToClipboard('alex-turn${turnCounter}')">📋</button>
+
+                    <label for="source-link-turn${turnCounter}">Source Link: 🔗</label>
+                    <input name="source-link-turn${turnCounter}" id="source-link-turn${turnCounter}" type="text"/>
+                    <button class="btn-copy" type="button" onclick="copyToClipboard('source-link-turn${turnCounter}')">📋</button>
+
+                    <label for="source-research-turn${turnCounter}">Source Research: 📖</label>
+                    <textarea name="source-research-turn${turnCounter}" id="source-research-turn${turnCounter}"></textarea>
+                    <button class="btn-copy" type="button" onclick="copyToClipboard('source-research-turn${turnCounter}')">📋</button>
+                </div>
+            `;
+
+            document.getElementById('turns-container').innerHTML += turnHTML;
+        });
+
+        function copyToClipboard(elementId) {
+            let copyText = document.getElementById(elementId);
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); /* For mobile devices */
+            document.execCommand("copy");
+        }
+    </script>
+</body>
+</html>
