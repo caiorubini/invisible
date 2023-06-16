@@ -17,6 +17,9 @@
 
         .input-field {
             margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
         }
 
         .input-field label {
@@ -133,7 +136,7 @@
                 <label for="user-personality">User Personality:</label>
                 <div class="input-container">
                     <textarea name="user-personality" id="user-personality"></textarea>
-                    <button type="button" onclick="copyToClipboard('user-personality')">Copy</button>
+                    <button type="button" onclick="copyToClipboard('user-personality')">📋</button>
                 </div>
             </div>
         </div>
@@ -143,7 +146,7 @@
                 <label for="objective">Objective:</label>
                 <div class="input-container">
                     <textarea name="objective" id="objective"></textarea>
-                    <button type="button" onclick="copyToClipboard('objective')">Copy</button>
+                    <button type="button" onclick="copyToClipboard('objective')">📋</button>
                 </div>
             </div>
         </div>
@@ -153,7 +156,7 @@
                 <label for="backstory">Backstory:</label>
                 <div class="input-container">
                     <textarea name="backstory" id="backstory"></textarea>
-                    <button type="button" onclick="copyToClipboard('backstory')">Copy</button>
+                    <button type="button" onclick="copyToClipboard('backstory')">📋</button>
                 </div>
             </div>
         </div>
@@ -175,14 +178,14 @@
                     <label for="user-turn${turnCounter + 1}">Turn <span class="turn-number">${turnCounter + 1}</span> - User:</label>
                     <div class="input-container">
                         <textarea name="user-turn${turnCounter + 1}" id="user-turn${turnCounter + 1}"></textarea>
-                        <button type="button" onclick="copyToClipboard('user-turn${turnCounter + 1}')">Copy</button>
+                        <button type="button" onclick="copyToClipboard('user-turn${turnCounter + 1}')">📋</button>
                     </div>
                 </div>
                 <div class="turn-section">
                     <label for="bot-turn${turnCounter + 1}">Bot:</label>
                     <div class="input-container">
                         <textarea name="bot-turn${turnCounter + 1}" id="bot-turn${turnCounter + 1}"></textarea>
-                        <button type="button" onclick="copyToClipboard('bot-turn${turnCounter + 1}')">Copy</button>
+                        <button type="button" onclick="copyToClipboard('bot-turn${turnCounter + 1}')">📋</button>
                     </div>
                 </div>
                 <div class="turn-section">
@@ -196,14 +199,14 @@
                     <label for="source-link${turnCounter + 1}">Source Link:</label>
                     <div class="input-container">
                         <textarea name="source-link${turnCounter + 1}" id="source-link${turnCounter + 1}"></textarea>
-                        <button type="button" onclick="copyToClipboard('source-link${turnCounter + 1}')">Copy</button>
+                        <button type="button" onclick="copyToClipboard('source-link${turnCounter + 1}')">📋</button>
                     </div>
                 </div>
                 <div class="turn-section">
                     <label for="source-research${turnCounter + 1}">Source Research:</label>
                     <div class="input-container">
                         <textarea name="source-research${turnCounter + 1}" id="source-research${turnCounter + 1}"></textarea>
-                        <button type="button" onclick="copyToClipboard('source-research${turnCounter + 1}')">Copy</button>
+                        <button type="button" onclick="copyToClipboard('source-research${turnCounter + 1}')">📋</button>
                     </div>
                 </div>
             `;
