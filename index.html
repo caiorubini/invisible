@@ -16,64 +16,70 @@
         }
 
         .input-field {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
             margin-bottom: 20px;
             padding: 20px;
             background-color: #333333;
             border-radius: 10px;
         }
 
-        textarea {
+        .input-field textarea,
+        .input-field input[type="text"] {
             width: 100%;
-            height: 150px;
             margin: 10px 0;
             padding: 10px;
             box-sizing: border-box;
             font-family: 'Space Grotesk', sans-serif;
-            resize: none;
+            background-color: #2c2c2c;
+            border: none;
+            color: #f5f5f5;
         }
 
+        .input-field .dialogue-column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-field .source-column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        button,
+        textarea,
         input[type="text"] {
-            width: 100%;
-            margin: 10px 0;
-            padding: 10px;
-            box-sizing: border-box;
-            font-family: 'Space Grotesk', sans-serif;
+            background-color: #1f1f1f;
         }
 
-        button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-            font-family: 'Space Grotesk', sans-serif;
-            margin: 10px 0;
-        }
-
-        #countdown {
-            font-size: 20px;
+        .turn-number {
             font-weight: bold;
-            text-align: center;
-            margin-bottom: 20px;
+            color: white;
+        }
+
+        input[type="checkbox"]:not(:checked) + label[for^="branding"] {
+            color: red;
         }
     </style>
 </head>
 <body>
     <div id="countdown"></div>
 
-    <form action="https://script.google.com/macros/s/AKfycbzdVUvKMmVr5vuCtJ-LHt3TI71KvZcxzBmaqSsUTuVy8K5MfEEqlAjvDA7YN9B8Ly-k/exec" method="POST">
+    <form action="https://script.google.com/macros/s/AKfycbyALcX9piRnqVF-TAPxjS_kstscBom6AYBMjhYDJo9repLJOaI/exec?timestamp=${new Date().getTime()}" method="POST">
         <div class="input-field">
             <label for="user-personality">User Personality:</label>
-            <textarea name="user-personality" id="user-personality" required></textarea>
+            <textarea name="user-personality" id="user-personality"></textarea>
             <button type="button" onclick="copyToClipboard('user-personality')">Copy</button>
         </div>
         <div class="input-field">
             <label for="objective">Objective:</label>
-            <textarea name="objective" id="objective" required></textarea>
+            <textarea name="objective" id="objective"></textarea>
             <button type="button" onclick="copyToClipboard('objective')">Copy</button>
         </div>
         <div class="input-field">
             <label for="backstory">Backstory:</label>
-            <textarea name="backstory" id="backstory" required></textarea>
+            <textarea name="backstory" id="backstory"></textarea>
             <button type="button" onclick="copyToClipboard('backstory')">Copy</button>
         </div>
 
@@ -90,18 +96,24 @@
             var turnHTML = document.createElement('div');
             turnHTML.classList.add('input-field');
             turnHTML.innerHTML = `
-                <label for="user-turn${turnCounter + 1}">Turn ${turnCounter + 1} - User:</label>
-                <textarea name="user-turn${turnCounter + 1}" id="user-turn${turnCounter + 1}" required></textarea>
-                <button type="button" onclick="copyToClipboard('user-turn${turnCounter + 1}')">Copy</button>
-                <label for="bot-turn${turnCounter + 1}">Bot:</label>
-                <textarea name="bot-turn${turnCounter + 1}" id="bot-turn${turnCounter + 1}" required></textarea>
-                <button type="button" onclick="copyToClipboard('bot-turn${turnCounter + 1}')">Copy</button>
-                <label for="source-link${turnCounter + 1}">Source Link:</label>
-                <input type="text" name="source-link${turnCounter + 1}" id="source-link${turnCounter + 1}" required>
-                <button type="button" onclick="copyToClipboard('source-link${turnCounter + 1}')">Copy</button>
-                <label for="source-research${turnCounter + 1}">Source Research:</label>
-                <textarea name="source-research${turnCounter + 1}" id="source-research${turnCounter + 1}" required></textarea>
-                <button type="button" onclick="copyToClipboard('source-research${turnCounter + 1}')">Copy</button>
+                <div class="dialogue-column">
+                    <label for="user-turn${turnCounter + 1}">Turn <span class="turn-number">${turnCounter + 1}</span> - User:</label>
+                    <textarea name="user-turn${turnCounter + 1}" id="user-turn${turnCounter + 1}"></textarea>
+                    <button type="button" onclick="copyToClipboard('user-turn${turnCounter + 1}')">Copy</button>
+                    <label for="bot-turn${turnCounter + 1}">Bot:</label>
+                    <textarea name="bot-turn${turnCounter + 1}" id="bot-turn${turnCounter + 1}"></textarea>
+                    <button type="button" onclick="copyToClipboard('bot-turn${turnCounter + 1}')">Copy</button>
+                    <label for="branding${turnCounter + 1}">Branding:</label>
+                    <input type="checkbox" name="branding${turnCounter + 1}" id="branding${turnCounter + 1}" onchange="updateBrandingColor(this, ${turnCounter + 1})">
+                </div>
+                <div class="source-column">
+                    <label for="source-link${turnCounter + 1}">Source Link:</label>
+                    <textarea name="source-link${turnCounter + 1}" id="source-link${turnCounter + 1}"></textarea>
+                    <button type="button" onclick="copyToClipboard('source-link${turnCounter + 1}')">Copy</button>
+                    <label for="source-research${turnCounter + 1}">Source Research:</label>
+                    <textarea name="source-research${turnCounter + 1}" id="source-research${turnCounter + 1}"></textarea>
+                    <button type="button" onclick="copyToClipboard('source-research${turnCounter + 1}')">Copy</button>
+                </div>
             `;
 
             document.getElementById('turns-container').appendChild(turnHTML);
@@ -112,6 +124,25 @@
             copyText.select();
             copyText.setSelectionRange(0, 99999); // For mobile devices
             document.execCommand("copy");
+
+            var copyButton = document.querySelector(`button[onclick="copyToClipboard('${elementId}')"]`);
+            copyButton.innerHTML = '✓';
+        }
+
+        function updateBrandingColor(checkbox, turnNumber) {
+            const userTextarea = document.getElementById(`user-turn${turnNumber}`);
+            const botTextarea = document.getElementById(`bot-turn${turnNumber}`);
+            const brandingLabel = document.querySelector(`label[for="branding${turnNumber}"]`);
+
+            if (checkbox.checked) {
+                if (userTextarea.value.includes('<brand>') || botTextarea.value.includes('<brand>')) {
+                    brandingLabel.style.color = 'black';
+                } else {
+                    brandingLabel.style.color = 'red';
+                }
+            } else {
+                brandingLabel.style.color = 'black';
+            }
         }
 
         // 1-hour countdown timer
