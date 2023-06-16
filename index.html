@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <title>Dialogue Submission</title>
+    <title>Conversation Writing Form v1.0</title>
     <style>
         body {
             background-color: #202020;
@@ -24,7 +24,7 @@
 
         h1 {
             color: white;
-            font-size: 1.2em;
+            font-size: 1.8em;
             margin-bottom: 20px;
             text-align: left;
         }
@@ -34,7 +34,7 @@
             max-width: 90%;
             padding: 20px;
             background-color: #333;
-            border-radius: 5px;
+            border-radius: 15px;
         }
 
         .section {
@@ -53,13 +53,12 @@
         }
 
         .section .source {
-            width: 50%;
-            opacity: 0.7;
+            opacity: 0.4;
         }
 
         .section label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
 
         textarea {
@@ -78,20 +77,22 @@
             background: #555;
             border: none;
             color: white;
-            padding: 5px 10px;
+            padding: 8px 12px;
             cursor: pointer;
             display: inline-block;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            border-radius: 5px;
         }
 
         input[type="submit"] {
             width: 100%;
             padding: 10px;
-            font-size: 1.2rem;
+            font-size: 1.0rem;
+            border-radius: 10px;
         }
 
         .turn-number {
-            font-size: 1.2em;
+            font-size: 2.0em;
             font-weight: bold;
             margin-bottom: 10px;
         }
@@ -135,7 +136,7 @@
 
             <!-- Turn 1 -->
             <div class="section">
-                <span class="turn-number">Turn 1</span>
+                <span class="turn-number">Turn 1</span><br><br>
 
                 <label for="user1">User:</label>
                 <div class="field">
