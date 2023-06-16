@@ -94,7 +94,34 @@ input[type="submit"]:hover {
 </head>
 <body>
     <!-- Content goes here -->
-    <script>
+
+<!-- This is your timer display -->
+<div id="timer">
+  <h1 id="countdown"></h1>
+</div>
+
+<!-- This is your form -->
+<form id="form" method="post">
+  <label for="userPersonality">User Personality:</label>
+  <textarea id="userPersonality" name="userPersonality" rows="4" cols="50"></textarea>
+
+  <label for="objective">Objective:</label>
+  <textarea id="objective" name="objective" rows="4" cols="50"></textarea>
+
+  <label for="backstory">Backstory:</label>
+  <textarea id="backstory" name="backstory" rows="4" cols="50"></textarea>
+
+  <!-- Turns will be added here by the JavaScript -->
+</form>
+
+<!-- This is your add turn button -->
+<button id="addTurn">Add Turn</button>
+
+<!-- This is your submit button -->
+<input type="submit" value="Submit" id="submit">
+
+<!-- The JavaScript code will go here -->
+<script>
         var countdown = 60 * 60, timer;
 
 function startTimer() {
