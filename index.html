@@ -1,232 +1,215 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Story Submission Form</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Dialogue Submission</title>
+</head>
+<body>
     <style>
         body {
-    background-color: #333;
-    color: #FFF;
+    background-color: #202020;
     font-family: 'Space Grotesk', sans-serif;
-    width: 100%;
-    max-width: 700px;
-    margin: auto;
+    color: white;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+#app {
+    width: 1000px;
+    max-width: 100%;
     padding: 20px;
+    box-sizing: border-box;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+#form {
+    padding-top: 20px;
+}
+
+.section {
+    border: 1px solid #333;
+    padding: 20px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.copy-btn {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #333;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
 }
 
 textarea {
     width: 100%;
-    padding: 10px;
-    font-family: 'Space Grotesk', sans-serif;
-    margin-bottom: 20px;
-    box-sizing: border-box;
-    color: #000;
+    height: 100px;
     resize: none;
+    margin-bottom: 20px;
 }
 
-#countdown {
-    font-weight: bold;
+#turns .section {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
 }
 
-input[type="text"], select {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0 20px 0;
-    display: inline-block;
-    border: none;
-    border-radius: 4px;
-    box-sizing: border-box;
+#turns .section .dialogue,
+#turns .section .sources {
+    width: 48%;
+}
+
+#turns .section .sources textarea,
+#turns .section .dialogue textarea {
+    height: 45px;
+}
+
+#turns .section .dialogue .branding {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#turns .section .dialogue .branding input {
+    margin-left: 10px;
+}
+
+#turns .section .sources .add-source {
+    text-align: right;
+    margin-top: 10px;
 }
 
 input[type="submit"] {
     width: 100%;
-    background-color: #333;
-    color: #FFF;
-    padding: 14px 20px;
-    margin: 20px 0;
+    padding: 10px;
+    font-size: 1.2rem;
+    background: #333;
     border: none;
-    border-radius: 4px;
+    color: white;
     cursor: pointer;
-    font-family: 'Space Grotesk', sans-serif;
 }
 
-input[type="submit"]:hover {
-    background-color: #111;
-}
-
-.turn-wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.left-col {
-    flex: 0 0 60%;
-}
-
-.right-col {
-    flex: 1;
-}
-
-.turn-title {
-    position: absolute;
-    margin-left: -50px;
-    font-size: 24px;
-}
-
-#navigation {
-    position: fixed;
-    top: 0;
-    left: 0;
+#addTurn {
     width: 100%;
     padding: 10px;
-    background: rgba(0,0,0,0.7);
-    z-index: 10;
-    display: flex;
-    justify-content: space-between;
+    font-size: 1.2rem;
+    background: #333;
+    border: none;
+    color: white;
+    cursor: pointer;
+    margin-top: 20px;
 }
-
-#navigation button {
-    margin-right: 10px;
-}
-
     </style>
-</head>
-<body>
-    <!-- Content goes here -->
-
-<!-- This is your timer display -->
-<div id="timer">
-  <h1 id="countdown"></h1>
-</div>
-
-<!-- This is your form -->
-<form id="form" method="post">
-  <label for="userPersonality">User Personality:</label>
-  <textarea id="userPersonality" name="userPersonality" rows="4" cols="50"></textarea>
-
-  <label for="objective">Objective:</label>
-  <textarea id="objective" name="objective" rows="4" cols="50"></textarea>
-
-  <label for="backstory">Backstory:</label>
-  <textarea id="backstory" name="backstory" rows="4" cols="50"></textarea>
-
-  <!-- Turns will be added here by the JavaScript -->
-</form>
-
-<!-- This is your add turn button -->
-<button id="addTurn">Add Turn</button>
-
-<!-- This is your submit button -->
-<input type="submit" value="Submit" id="submit">
-
-<!-- The JavaScript code will go here -->
-<script>
-        var countdown = 60 * 60, timer;
-
-function startTimer() {
-    var minutes, seconds;
-    timer = setInterval(function () {
-        minutes = parseInt(countdown / 60, 10);
-        seconds = parseInt(countdown % 60, 10);
-
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-
-        document.getElementById('countdown').innerText = minutes + ":" + seconds;
-
-        if (--countdown < 0) {
-            clearInterval(timer);
-        }
-    }, 1000);
-}
-
-startTimer();
-
-var turns = 1;
-
-function addTurn() {
-    var form = document.getElementById('form');
-    var turnHTML = generateTurnHTML(turns);
-    form.innerHTML += turnHTML;
-    turns++;
-}
-
-function generateTurnHTML(turn) {
-    var html = `
-    <div id="turn${turn}" class="turn">
-        <div class="turn-wrapper">
-            <div class="left-col">
-                <div class="turn-title">${turn}</div>
-                <label for="user${turn}">User:</label>
-                <textarea id="user${turn}" name="user${turn}" rows="4" cols="50"></textarea>
-                <label for="bot${turn}">Bot:</label>
-                <textarea id="bot${turn}" name="bot${turn}" rows="4" cols="50"></textarea>
-            </div>
-            <div class="right-col">
-                <label for="source_link${turn}">Source Link:</label>
-                <input type="text" id="source_link${turn}" name="source_link${turn}">
-                <label for="source_research${turn}">Source Research:</label>
-                <textarea id="source_research${turn}" name="source_research${turn}" rows="4" cols="50"></textarea>
-            </div>
+    <div id="app">
+        <!-- Navigation -->
+        <div class="nav">
+            <div id="timer"><h1 id="countdown"></h1></div>
+            <div id="turn-nav"></div>
         </div>
-        <label for="branding${turn}">Branding:</label>
-        <input type="checkbox" id="branding${turn}" name="branding${turn}">
-    </div>`;
-    return html;
-}
 
-function addTurnToNavigation(turn) {
-    var navigation = document.getElementById('navigation');
-    navigation.innerHTML += `<button onclick="goToTurn(${turn})">Turn ${turn}</button>`;
-}
+        <!-- Form -->
+        <form id="form" action="https://script.google.com/macros/s/AKfycbyALcX9piRnqVF-TAPxjS_kstscBom6AYBMjhYDJo9repQ-tQwEY_C2P1X9Ov0PmSsY/exec" method="post">
+            <div class="section">
+                <label for="userPersonality">User Personality:</label>
+                <textarea id="userPersonality" name="userPersonality"></textarea>
+                <button class="copy-btn">Copy</button>
+            </div>
+            <div class="section">
+                <label for="objective">Objective:</label>
+                <textarea id="objective" name="objective"></textarea>
+                <button class="copy-btn">Copy</button>
+            </div>
+            <div class="section">
+                <label for="backstory">Backstory:</label>
+                <textarea id="backstory" name="backstory"></textarea>
+                <button class="copy-btn">Copy</button>
+            </div>
 
-function goToTurn(turn) {
-    var turnDiv = document.getElementById(`turn${turn}`);
-    turnDiv.scrollIntoView();
-}
+            <!-- Turns will be added here -->
+            <div id="turns"></div>
 
-addTurn();
-addTurnToNavigation(1);
+            <input type="submit" value="Submit" id="submit">
+        </form>
 
-document.getElementById('addTurn').addEventListener('click', function(e) {
-    e.preventDefault();
-    addTurn();
-    addTurnToNavigation(turns-1);
+        <!-- Add Turn Button -->
+        <button id="addTurn">+1 Turn</button>
+    </div>
+
+    <script>
+        <script>
+document.getElementById('addTurn').addEventListener('click', function() {
+    var turnCount = document.querySelectorAll('#turns .section').length + 1;
+    var turnHTML = `
+        <div class="section">
+            <h2 class="turn-number">Turn ${turnCount}</h2>
+            <div class="dialogue">
+                <label for="user${turnCount}">User:</label>
+                <textarea id="user${turnCount}" name="user${turnCount}"></textarea>
+                <label for="bot${turnCount}">Bot:</label>
+                <textarea id="bot${turnCount}" name="bot${turnCount}"></textarea>
+                <div class="branding">
+                    <label for="branding${turnCount}">Branding:</label>
+                    <input type="checkbox" id="branding${turnCount}" name="branding${turnCount}">
+                </div>
+            </div>
+            <div class="sources">
+                <label for="source-link${turnCount}1">Source Link:</label>
+                <textarea id="source-link${turnCount}1" name="source-link${turnCount}1"></textarea>
+                <div class="add-source">
+                    <button type="button" class="add-source-button">+</button>
+                </div>
+                <label for="source-research${turnCount}">Source Research:</label>
+                <textarea id="source-research${turnCount}" name="source-research${turnCount}"></textarea>
+            </div>
+        </div>`;
+    document.getElementById('turns').insertAdjacentHTML('beforeend', turnHTML);
 });
 
-function postData(url = '', data = {}) {
-    return fetch(url, {
-        method: 'POST', 
-        mode: 'no-cors', 
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json());
-}
-
-document.getElementById('form').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    var data = {};
-    var inputs = document.getElementsByTagName('input');
-    var textareas = document.getElementsByTagName('textarea');
-
-    for (var i = 0; i < inputs.length; i++) {
-        data[inputs[i].name] = inputs[i].value;
+document.addEventListener('click', function(e) {
+    if (e.target && e.target.classList.contains('copy-button')) {
+        var copyText = e.target.previousElementSibling;
+        navigator.clipboard.writeText(copyText.value);
+        e.target.textContent = '✅';
+        setTimeout(function() {
+            e.target.textContent = 'Copy';
+        }, 2000);
     }
-
-    for (var i = 0; i < textareas.length; i++) {
-        data[textareas[i].name] = textareas[i].value;
+    if (e.target && e.target.classList.contains('add-source-button')) {
+        var sourceCount = e.target.parentElement.parentElement.querySelectorAll('textarea').length + 1;
+        var sourceHTML = `<label for="source-link${sourceCount}">Source Link:</label>
+                          <textarea id="source-link${sourceCount}" name="source-link${sourceCount}"></textarea>`;
+        e.target.parentElement.insertAdjacentHTML('beforebegin', sourceHTML);
     }
-
-    postData('https://script.google.com/macros/s/AKfycbyALcX9piRnqVF-TAPxjS_kstscBom6AYBMjhYDJo9repQ-tQwEY_C2P1X9Ov0PmSsY/exec', data)
-    .then(data => {
-        console.log(data);
-    });
 });
+
+document.addEventListener('change', function(e) {
+    if (e.target && e.target.type === 'checkbox') {
+        var turnSection = e.target.closest('.section');
+        var userText = turnSection.querySelector('.dialogue textarea[name^="user"]').value;
+        var botText = turnSection.querySelector('.dialogue textarea[name^="bot"]').value;
+        if (e.target.checked && (!userText.includes('<brand>') || !botText.includes('<brand>'))) {
+            e.target.nextElementSibling.style.color = 'red';
+        } else {
+            e.target.nextElementSibling.style.color = '';
+        }
+    }
+});
+</script>
     </script>
 </body>
 </html>
