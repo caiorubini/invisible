@@ -1,136 +1,205 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Story Submission Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Space Grotesk', sans-serif;
-            background-color: #222222;
-            color: #f5f5f5;
-            width: 90%;
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 20px;
-            box-sizing: border-box;
-        }
+    background-color: #333;
+    color: #FFF;
+    font-family: 'Space Grotesk', sans-serif;
+    width: 100%;
+    max-width: 700px;
+    margin: auto;
+    padding: 20px;
+}
 
-        .input-field {
-            margin-bottom: 20px;
-            padding: 20px;
-            background-color: #333333;
-            border-radius: 10px;
-        }
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-family: 'Space Grotesk', sans-serif;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    color: #000;
+    resize: none;
+}
 
-        textarea {
-            width: 100%;
-            height: 150px;
-            margin: 10px 0;
-            padding: 10px;
-            box-sizing: border-box;
-            font-family: 'Space Grotesk', sans-serif;
-            resize: none;
-        }
+#countdown {
+    font-weight: bold;
+}
 
-        input[type="text"] {
-            width: 100%;
-            margin: 10px 0;
-            padding: 10px;
-            box-sizing: border-box;
-            font-family: 'Space Grotesk', sans-serif;
-        }
+input[type="text"], select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 20px 0;
+    display: inline-block;
+    border: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
 
-        button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-            font-family: 'Space Grotesk', sans-serif;
-            margin: 10px 0;
-        }
+input[type="submit"] {
+    width: 100%;
+    background-color: #333;
+    color: #FFF;
+    padding: 14px 20px;
+    margin: 20px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif;
+}
 
-        #countdown {
-            font-size: 20px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 20px;
-        }
+input[type="submit"]:hover {
+    background-color: #111;
+}
+
+.turn-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.left-col {
+    flex: 0 0 60%;
+}
+
+.right-col {
+    flex: 1;
+}
+
+.turn-title {
+    position: absolute;
+    margin-left: -50px;
+    font-size: 24px;
+}
+
+#navigation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background: rgba(0,0,0,0.7);
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+}
+
+#navigation button {
+    margin-right: 10px;
+}
+
     </style>
 </head>
 <body>
-    <div id="countdown"></div>
-
-    <form action="https://script.google.com/macros/s/AKfycbzdVUvKMmVr5vuCtJ-LHt3TI71KvZcxzBmaqSsUTuVy8K5MfEEqlAjvDA7YN9B8Ly-k/exec" method="POST">
-        <div class="input-field">
-            <label for="user-personality">User Personality:</label>
-            <textarea name="user-personality" id="user-personality" required></textarea>
-            <button type="button" onclick="copyToClipboard('user-personality')">Copy</button>
-        </div>
-        <div class="input-field">
-            <label for="objective">Objective:</label>
-            <textarea name="objective" id="objective" required></textarea>
-            <button type="button" onclick="copyToClipboard('objective')">Copy</button>
-        </div>
-        <div class="input-field">
-            <label for="backstory">Backstory:</label>
-            <textarea name="backstory" id="backstory" required></textarea>
-            <button type="button" onclick="copyToClipboard('backstory')">Copy</button>
-        </div>
-
-        <div id="turns-container"></div>
-
-        <button id="add-turn-button" type="button">Add Turn</button>
-        <button type="submit">Submit</button>
-    </form>
-
+    <!-- Content goes here -->
     <script>
-        document.getElementById('add-turn-button').addEventListener('click', function() {
-            let turnCounter = document.querySelectorAll('.input-field').length - 3;
+        var countdown = 60 * 60, timer;
 
-            var turnHTML = document.createElement('div');
-            turnHTML.classList.add('input-field');
-            turnHTML.innerHTML = `
-                <label for="user-turn${turnCounter + 1}">Turn ${turnCounter + 1} - User:</label>
-                <textarea name="user-turn${turnCounter + 1}" id="user-turn${turnCounter + 1}" required></textarea>
-                <button type="button" onclick="copyToClipboard('user-turn${turnCounter + 1}')">Copy</button>
-                <label for="bot-turn${turnCounter + 1}">Bot:</label>
-                <textarea name="bot-turn${turnCounter + 1}" id="bot-turn${turnCounter + 1}" required></textarea>
-                <button type="button" onclick="copyToClipboard('bot-turn${turnCounter + 1}')">Copy</button>
-                <label for="source-link${turnCounter + 1}">Source Link:</label>
-                <input type="text" name="source-link${turnCounter + 1}" id="source-link${turnCounter + 1}" required>
-                <button type="button" onclick="copyToClipboard('source-link${turnCounter + 1}')">Copy</button>
-                <label for="source-research${turnCounter + 1}">Source Research:</label>
-                <textarea name="source-research${turnCounter + 1}" id="source-research${turnCounter + 1}" required></textarea>
-                <button type="button" onclick="copyToClipboard('source-research${turnCounter + 1}')">Copy</button>
-            `;
+function startTimer() {
+    var minutes, seconds;
+    timer = setInterval(function () {
+        minutes = parseInt(countdown / 60, 10);
+        seconds = parseInt(countdown % 60, 10);
 
-            document.getElementById('turns-container').appendChild(turnHTML);
-        });
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
 
-        function copyToClipboard(elementId) {
-            var copyText = document.getElementById(elementId);
-            copyText.select();
-            copyText.setSelectionRange(0, 99999); // For mobile devices
-            document.execCommand("copy");
+        document.getElementById('countdown').innerText = minutes + ":" + seconds;
+
+        if (--countdown < 0) {
+            clearInterval(timer);
         }
+    }, 1000);
+}
 
-        // 1-hour countdown timer
-        var countDownDate = new Date().getTime() + 60 * 60 * 1000;
+startTimer();
 
-        var x = setInterval(function() {
-            var now = new Date().getTime();
-            var distance = countDownDate - now;
+var turns = 1;
 
-            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+function addTurn() {
+    var form = document.getElementById('form');
+    var turnHTML = generateTurnHTML(turns);
+    form.innerHTML += turnHTML;
+    turns++;
+}
 
-            document.getElementById("countdown").innerHTML = "Time left: " + minutes + "m " + seconds + "s";
+function generateTurnHTML(turn) {
+    var html = `
+    <div id="turn${turn}" class="turn">
+        <div class="turn-wrapper">
+            <div class="left-col">
+                <div class="turn-title">${turn}</div>
+                <label for="user${turn}">User:</label>
+                <textarea id="user${turn}" name="user${turn}" rows="4" cols="50"></textarea>
+                <label for="bot${turn}">Bot:</label>
+                <textarea id="bot${turn}" name="bot${turn}" rows="4" cols="50"></textarea>
+            </div>
+            <div class="right-col">
+                <label for="source_link${turn}">Source Link:</label>
+                <input type="text" id="source_link${turn}" name="source_link${turn}">
+                <label for="source_research${turn}">Source Research:</label>
+                <textarea id="source_research${turn}" name="source_research${turn}" rows="4" cols="50"></textarea>
+            </div>
+        </div>
+        <label for="branding${turn}">Branding:</label>
+        <input type="checkbox" id="branding${turn}" name="branding${turn}">
+    </div>`;
+    return html;
+}
 
-            if (distance < 0) {
-                clearInterval(x);
-                document.getElementById("countdown").innerHTML = "TIME UP";
-            }
-        }, 1000);
+function addTurnToNavigation(turn) {
+    var navigation = document.getElementById('navigation');
+    navigation.innerHTML += `<button onclick="goToTurn(${turn})">Turn ${turn}</button>`;
+}
+
+function goToTurn(turn) {
+    var turnDiv = document.getElementById(`turn${turn}`);
+    turnDiv.scrollIntoView();
+}
+
+addTurn();
+addTurnToNavigation(1);
+
+document.getElementById('addTurn').addEventListener('click', function(e) {
+    e.preventDefault();
+    addTurn();
+    addTurnToNavigation(turns-1);
+});
+
+function postData(url = '', data = {}) {
+    return fetch(url, {
+        method: 'POST', 
+        mode: 'no-cors', 
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json());
+}
+
+document.getElementById('form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    var data = {};
+    var inputs = document.getElementsByTagName('input');
+    var textareas = document.getElementsByTagName('textarea');
+
+    for (var i = 0; i < inputs.length; i++) {
+        data[inputs[i].name] = inputs[i].value;
+    }
+
+    for (var i = 0; i < textareas.length; i++) {
+        data[textareas[i].name] = textareas[i].value;
+    }
+
+    postData('https://script.google.com/macros/s/AKfycbzdVUvKMmVr5vuCtJ-LHt3TI71KvZcxzBmaqSsUTuVy8K5MfEEqlAjvDA7YN9B8Ly-k/exec', data)
+    .then(data => {
+        console.log(data);
+    });
+});
     </script>
 </body>
 </html>
