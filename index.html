@@ -1,476 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <title>Conversation Writing Form v1.0</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #202020;
             font-family: 'Space Grotesk', sans-serif;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;  /* Changed to allow scrolling */
-            height: 100vh;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-size: 0.8em;
-            overflow-y: auto;  /* Allows vertical scrolling */
-        }
-
-        h1 {
-            color: white;
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .app {
-            width: 600px;
-            max-width: 90%;
+            background-color: #222222;
+            color: #f5f5f5;
+            width: 90%;
+            max-width: 700px;
+            margin: 0 auto;
             padding: 20px;
-            background-color: #333;
-            border-radius: 15px;
+            box-sizing: border-box;
         }
 
-        .section {
-            margin-bottom: 10px;
-            display: flex;
-            flex-wrap: wrap;  /* Allows wrapping */
-        }
-
-        .section .field {
-            width: 100%;
-        }
-
-        .section .dialogue,
-        .section .branding {
-            width: 100%;
-        }
-
-        .section .source {
-            width: 100%;
-            opacity: 0.8;
-        }
-
-        .section label {
-            display: inline-block;
-            padding: 4px;
-            margin-bottom: 10px;
+        .input-field {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #333333;
+            border-radius: 10px;
         }
 
         textarea {
             width: 100%;
-            height: 100px;
-            resize: none;
-            margin-bottom: 10px;
-        }
-
-        .dialogue textarea {
-            opacity: 0.8;
-        }
-
-        .copy-btn, input[type="submit"] {
+            height: 150px;
+            margin: 10px 0;
+            padding: 10px;
+            box-sizing: border-box;
             font-family: 'Space Grotesk', sans-serif;
-            background: #555;
-            border: none;
-            color: white;
-            padding: 8px 12px;
-            cursor: pointer;
-            display: inline-block;
-            margin-bottom: 15px;
-            border-radius: 5px;
+            resize: none;
         }
 
-        input[type="submit"] {
+        input[type="text"] {
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            box-sizing: border-box;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        button {
+            display: block;
             width: 100%;
             padding: 10px;
-            font-size: 1.0rem;
+            box-sizing: border-box;
+            font-family: 'Space Grotesk', sans-serif;
+            margin: 10px 0;
+        }
+
+        #countdown {
+            font-size: 20px;
             font-weight: bold;
-            border-radius: 10px;
-        }
-
-        .turn-number {
-            font-size: 2.0em;
-            font-weight: bold;
-            margin-bottom: 10px;
-            display: inline-block;
-        }
-
-        .checkbox {
-            display: flex;
-            align-items: left;
-        }
-
-        .checkbox input {
-            margin-right: 10px;
-            margin-top: 10px;
+            text-align: center;
+            margin-bottom: 20px;
         }
     </style>
 </head>
-
 <body>
-    <div class="app">
-        <h1>Conversation Writing Form</h1>
-        <form action="https://script.google.com/macros/s/AKfycbyALcX9piRnqVF-TAPxjS_kstscBom6AYBMjhYDJo9repLJOaI/exec" method="POST">
-            <div class="section">
-                <label for="userPersonality">User Personality:</label>
-                <div class="field">
-                    <textarea id="userPersonality" name="userPersonality"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            </div>
-            <div class="section">
-                <label for="objective">Objective:</label>
-                <div class="field">
-                    <textarea id="objective" name="objective"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            </div>
-            <div class="section">
-                <label for="backstory">Backstory:</label>
-                <div class="field">
-                    <textarea id="backstory" name="backstory"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            </div>
+    <div id="countdown"></div>
 
-            <!-- Turn 1 -->
-            <span class="turn-number">Turn 1</span>
-            <div class="section">
-                <label for="user1">User:</label>
-                <div class="field">
-                    <textarea id="user1" name="user1" class="dialogue" spellcheck="false"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
+    <form action="https://script.google.com/macros/s/AKfycbzdVUvKMmVr5vuCtJ-LHt3TI71KvZcxzBmaqSsUTuVy8K5MfEEqlAjvDA7YN9B8Ly-k/exec" method="POST">
+        <div class="input-field">
+            <label for="user-personality">User Personality:</label>
+            <textarea name="user-personality" id="user-personality" required></textarea>
+            <button type="button" onclick="copyToClipboard('user-personality')">Copy</button>
+        </div>
+        <div class="input-field">
+            <label for="objective">Objective:</label>
+            <textarea name="objective" id="objective" required></textarea>
+            <button type="button" onclick="copyToClipboard('objective')">Copy</button>
+        </div>
+        <div class="input-field">
+            <label for="backstory">Backstory:</label>
+            <textarea name="backstory" id="backstory" required></textarea>
+            <button type="button" onclick="copyToClipboard('backstory')">Copy</button>
+        </div>
 
-                <label for="bot1">Bot:</label>
-                <div class="field">
-                    <textarea id="bot1" name="bot1" class="dialogue" spellcheck="false"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
+        <div id="turns-container"></div>
 
-                <label for="source_link1">Source Link:</label>
-                <div class="source">
-                    <textarea id="source_link1" name="source_link1" class="dialogue" spellcheck="false"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
+        <button id="add-turn-button" type="button">Add Turn</button>
+        <button type="submit">Submit</button>
+    </form>
 
-                <label for="source_research1">Source Research:</label>
-                <div class="source">
-                    <textarea id="source_research1" name="source_research1" class="dialogue" spellcheck="false"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-
-                <label for="branding1" class="checkbox">Branding: 
-                    <input type="checkbox" id="branding1" name="branding1">
-                </label>
-            </div>
-
-            <!-- Turn 2 -->
-            <span class="turn-number">Turn 2</span>
-            <div class="section">
-                <label for="user2">User:</label>
-                <div class="field">
-                    <textarea id="user2" name="user2" class="dialogue" spellcheck="false"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="bot2">Bot:</label>
-                <div class="field">
-                    <textarea id="bot2" name="bot2" class="dialogue" spellcheck="false"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="source_link2">Source Link:</label>
-                <div class="source">
-                    <textarea id="source_link2" name="source_link2"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="source_research2">Source Research:</label>
-                <div class="source">
-                    <textarea id="source_research2" name="source_research2"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="branding2" class="checkbox">Branding:
-                    <input type="checkbox" id="branding2" name="branding2">
-                </label>
-            </div>
-            <!-- Turn 3 -->
-            <span class="turn-number">Turn 3</span>
-            <div class="section">
-                <label for="user3">User:</label>
-                <div class="field">
-                    <textarea id="user3" name="user3" class="dialogue"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="bot3">Bot:</label>
-                <div class="field">
-                    <textarea id="bot3" name="bot3" class="dialogue"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="source_link3">Source Link:</label>
-                <div class="source">
-                    <textarea id="source_link3" name="source_link3"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="source_research3">Source Research:</label>
-                <div class="source">
-                    <textarea id="source_research3" name="source_research3"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="branding3" class="checkbox">Branding:
-                    <input type="checkbox" id="branding3" name="branding3">
-                </label>
-            </div>
-            
-            <!-- Turn 4 -->
-            <span class="turn-number">Turn 4</span>
-            <div class="section">
-                <label for="user4">User:</label>
-                <div class="field">
-                    <textarea id="user4" name="user4" class="dialogue"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="bot4">Bot:</label>
-                <div class="field">
-                    <textarea id="bot4" name="bot4" class="dialogue"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="source_link4">Source Link:</label>
-                <div class="source">
-                    <textarea id="source_link4" name="source_link4"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="source_research4">Source Research:</label>
-                <div class="source">
-                    <textarea id="source_research4" name="source_research4"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="branding4" class="checkbox">Branding:
-                    <input type="checkbox" id="branding4" name="branding4">
-                </label>
-            </div>
-            <!-- Turn 5 -->
-            <span class="turn-number">Turn 5</span>
-            <div class="section">
-                <label for="user5">User:</label>
-                <div class="field">
-                    <textarea id="user5" name="user5" class="dialogue"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="bot5">Bot:</label>
-                <div class="field">
-                    <textarea id="bot5" name="bot5" class="dialogue"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="source_link5">Source Link:</label>
-                <div class="source">
-                    <textarea id="source_link5" name="source_link5"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="source_research5">Source Research:</label>
-                <div class="source">
-                    <textarea id="source_research5" name="source_research5"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="branding5" class="checkbox">Branding:
-                    <input type="checkbox" id="branding5" name="branding5">
-                </label>
-            </div>
-            
-            <!-- Turn 6 -->
-            <span class="turn-number">Turn 6</span>
-            <div class="section">
-                <label for="user6">User:</label>
-                <div class="field">
-                    <textarea id="user6" name="user6" class="dialogue"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="bot6">Bot:</label>
-                <div class="field">
-                    <textarea id="bot6" name="bot6" class="dialogue"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="source_link6">Source Link:</label>
-                <div class="source">
-                    <textarea id="source_link6" name="source_link6"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="source_research6">Source Research:</label>
-                <div class="source">
-                    <textarea id="source_research6" name="source_research6"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="branding6" class="checkbox">Branding:
-                    <input type="checkbox" id="branding6" name="branding6">
-                </label>
-            </div>
-            <!-- Turn 7 -->
-            <span class="turn-number">Turn 7</span>
-            <div class="section">
-                <label for="user7">User:</label>
-                <div class="field">
-                    <textarea id="user7" name="user7" class="dialogue"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="bot7">Bot:</label>
-                <div class="field">
-                    <textarea id="bot7" name="bot7" class="dialogue"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="source_link7">Source Link:</label>
-                <div class="source">
-                    <textarea id="source_link7" name="source_link7"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="source_research7">Source Research:</label>
-                <div class="source">
-                    <textarea id="source_research7" name="source_research7"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="branding7" class="checkbox">Branding:
-                    <input type="checkbox" id="branding7" name="branding7">
-                </label>
-            </div>
-            
-            <!-- Turn 8 -->
-            <span class="turn-number">Turn 8</span>
-            <div class="section">
-                <label for="user8">User:</label>
-                <div class="field">
-                    <textarea id="user8" name="user8" class="dialogue"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="bot8">Bot:</label>
-                <div class="field">
-                    <textarea id="bot8" name="bot8" class="dialogue"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="source_link8">Source Link:</label>
-                <div class="source">
-                    <textarea id="source_link8" name="source_link8"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="source_research8">Source Research:</label>
-                <div class="source">
-                    <textarea id="source_research8" name="source_research8"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="branding8" class="checkbox">Branding:
-                    <input type="checkbox" id="branding8" name="branding8">
-                </label>
-            </div>
-            <!-- Turn 9 -->
-            <span class="turn-number">Turn 9</span>
-            <div class="section">
-                <label for="user9">User:</label>
-                <div class="field">
-                    <textarea id="user9" name="user9" class="dialogue"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="bot9">Bot:</label>
-                <div class="field">
-                    <textarea id="bot9" name="bot9" class="dialogue"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="source_link9">Source Link:</label>
-                <div class="source">
-                    <textarea id="source_link9" name="source_link9"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="source_research9">Source Research:</label>
-                <div class="source">
-                    <textarea id="source_research9" name="source_research9"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="branding9" class="checkbox">Branding:
-                    <input type="checkbox" id="branding9" name="branding9">
-                </label>
-            </div>
-            
-            <!-- Turn 10 -->
-            <span class="turn-number">Turn 10</span>
-            <div class="section">
-                <label for="user10">User:</label>
-                <div class="field">
-                    <textarea id="user10" name="user10" class="dialogue"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="bot10">Bot:</label>
-                <div class="field">
-                    <textarea id="bot10" name="bot10" class="dialogue"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="source_link10">Source Link:</label>
-                <div class="source">
-                    <textarea id="source_link10" name="source_link10"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="source_research10">Source Research:</label>
-                <div class="source">
-                    <textarea id="source_research10" name="source_research10"></textarea>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            
-                <label for="branding10" class="checkbox">Branding:
-                    <input type="checkbox" id="branding10" name="branding10">
-                </label>
-            </div>
-
-
-            
-            <!-- END OF TURNS -->
-
-            <input type="submit" value="Submit">
-        </form>
-    </div>
     <script>
-        document.addEventListener('click', function (event) {
-            if (!event.target.matches('.copy-btn')) return;
-            var text = event.target.previousElementSibling.value;
-            navigator.clipboard.writeText(text);
-            event.target.textContent = "✓";
-            event.preventDefault();
-        }, false);
+        document.getElementById('add-turn-button').addEventListener('click', function() {
+            let turnCounter = document.querySelectorAll('.input-field').length - 3;
+
+            var turnHTML = document.createElement('div');
+            turnHTML.classList.add('input-field');
+            turnHTML.innerHTML = `
+                <label for="user-turn${turnCounter + 1}">Turn ${turnCounter + 1} - User:</label>
+                <textarea name="user-turn${turnCounter + 1}" id="user-turn${turnCounter + 1}" required></textarea>
+                <button type="button" onclick="copyToClipboard('user-turn${turnCounter + 1}')">Copy</button>
+                <label for="bot-turn${turnCounter + 1}">Bot:</label>
+                <textarea name="bot-turn${turnCounter + 1}" id="bot-turn${turnCounter + 1}" required></textarea>
+                <button type="button" onclick="copyToClipboard('bot-turn${turnCounter + 1}')">Copy</button>
+                <label for="source-link${turnCounter + 1}">Source Link:</label>
+                <input type="text" name="source-link${turnCounter + 1}" id="source-link${turnCounter + 1}" required>
+                <button type="button" onclick="copyToClipboard('source-link${turnCounter + 1}')">Copy</button>
+                <label for="source-research${turnCounter + 1}">Source Research:</label>
+                <textarea name="source-research${turnCounter + 1}" id="source-research${turnCounter + 1}" required></textarea>
+                <button type="button" onclick="copyToClipboard('source-research${turnCounter + 1}')">Copy</button>
+            `;
+
+            document.getElementById('turns-container').appendChild(turnHTML);
+        });
+
+        function copyToClipboard(elementId) {
+            var copyText = document.getElementById(elementId);
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+            document.execCommand("copy");
+        }
+
+        // 1-hour countdown timer
+        var countDownDate = new Date().getTime() + 60 * 60 * 1000;
+
+        var x = setInterval(function() {
+            var now = new Date().getTime();
+            var distance = countDownDate - now;
+
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").innerHTML = "Time left: " + minutes + "m " + seconds + "s";
+
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("countdown").innerHTML = "TIME UP";
+            }
+        }, 1000);
     </script>
 </body>
-
 </html>
