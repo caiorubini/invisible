@@ -16,13 +16,13 @@
         }
 
         .input-field {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
             margin-bottom: 20px;
-            padding: 20px;
-            background-color: #333333;
-            border-radius: 10px;
+        }
+
+        .input-field label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
         }
 
         .input-field textarea,
@@ -37,20 +37,42 @@
             color: #f5f5f5;
         }
 
-        .input-field .dialogue-column {
-            display: flex;
-            flex-direction: column;
+        .input-field button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #333333;
+            color: #f5f5f5;
+            border: none;
+            border-radius: 5px;
         }
 
-        .input-field .source-column {
+        .input-field .input-container {
             display: flex;
-            flex-direction: column;
+            align-items: center;
         }
 
-        button,
-        textarea,
-        input[type="text"] {
-            background-color: #1f1f1f;
+        .input-field .input-container textarea {
+            flex: 1;
+        }
+
+        .input-field .input-container button {
+            margin-left: 10px;
+        }
+
+        button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #333333;
+            color: #f5f5f5;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #444444;
+            cursor: pointer;
         }
 
         .turn-number {
@@ -58,29 +80,82 @@
             color: white;
         }
 
-        input[type="checkbox"]:not(:checked) + label[for^="branding"] {
+        input[type="checkbox"]:not(:checked) + label.branding-label {
             color: red;
+        }
+
+        input[type="checkbox"] + label.branding-label::before {
+            content: '';
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            background-color: #333333;
+            border: 2px solid #f5f5f5;
+            margin-right: 5px;
+            border-radius: 3px;
+            vertical-align: middle;
+        }
+
+        input[type="checkbox"]:checked + label.branding-label::before {
+            background-color: #f5f5f5;
+        }
+
+        .turn-section {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #333333;
+            border-radius: 10px;
+        }
+
+        .turn-section .turn-number {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #f5f5f5;
+            color: #222222;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        #countdown {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
     <div id="countdown"></div>
 
-    <form action="https://script.google.com/macros/s/AKfycbyALcX9piRnqVF-TAPxjS_kstscBom6AYBMjhYDJo9repLJOaI/exec?timestamp=${new Date().getTime()}" method="POST">
+    <form action="https://script.google.com/macros/s/AKfycbzdVUvKMmVr5vuCtJ-LHt3TI71KvZcxzBmaqSsUTuVy8K5MfEEqlAjvDA7YN9B8Ly-k/exec?timestamp=${new Date().getTime()}" method="POST">
         <div class="input-field">
-            <label for="user-personality">User Personality:</label>
-            <textarea name="user-personality" id="user-personality"></textarea>
-            <button type="button" onclick="copyToClipboard('user-personality')">Copy</button>
+            <div class="turn-section">
+                <label for="user-personality">User Personality:</label>
+                <div class="input-container">
+                    <textarea name="user-personality" id="user-personality"></textarea>
+                    <button type="button" onclick="copyToClipboard('user-personality')">Copy</button>
+                </div>
+            </div>
         </div>
+
         <div class="input-field">
-            <label for="objective">Objective:</label>
-            <textarea name="objective" id="objective"></textarea>
-            <button type="button" onclick="copyToClipboard('objective')">Copy</button>
+            <div class="turn-section">
+                <label for="objective">Objective:</label>
+                <div class="input-container">
+                    <textarea name="objective" id="objective"></textarea>
+                    <button type="button" onclick="copyToClipboard('objective')">Copy</button>
+                </div>
+            </div>
         </div>
+
         <div class="input-field">
-            <label for="backstory">Backstory:</label>
-            <textarea name="backstory" id="backstory"></textarea>
-            <button type="button" onclick="copyToClipboard('backstory')">Copy</button>
+            <div class="turn-section">
+                <label for="backstory">Backstory:</label>
+                <div class="input-container">
+                    <textarea name="backstory" id="backstory"></textarea>
+                    <button type="button" onclick="copyToClipboard('backstory')">Copy</button>
+                </div>
+            </div>
         </div>
 
         <div id="turns-container"></div>
@@ -91,28 +166,45 @@
 
     <script>
         document.getElementById('add-turn-button').addEventListener('click', function() {
-            let turnCounter = document.querySelectorAll('.input-field').length - 3;
+            let turnCounter = document.querySelectorAll('.turn-section').length;
 
             var turnHTML = document.createElement('div');
             turnHTML.classList.add('input-field');
             turnHTML.innerHTML = `
-                <div class="dialogue-column">
+                <div class="turn-section">
                     <label for="user-turn${turnCounter + 1}">Turn <span class="turn-number">${turnCounter + 1}</span> - User:</label>
-                    <textarea name="user-turn${turnCounter + 1}" id="user-turn${turnCounter + 1}"></textarea>
-                    <button type="button" onclick="copyToClipboard('user-turn${turnCounter + 1}')">Copy</button>
-                    <label for="bot-turn${turnCounter + 1}">Bot:</label>
-                    <textarea name="bot-turn${turnCounter + 1}" id="bot-turn${turnCounter + 1}"></textarea>
-                    <button type="button" onclick="copyToClipboard('bot-turn${turnCounter + 1}')">Copy</button>
-                    <label for="branding${turnCounter + 1}">Branding:</label>
-                    <input type="checkbox" name="branding${turnCounter + 1}" id="branding${turnCounter + 1}" onchange="updateBrandingColor(this, ${turnCounter + 1})">
+                    <div class="input-container">
+                        <textarea name="user-turn${turnCounter + 1}" id="user-turn${turnCounter + 1}"></textarea>
+                        <button type="button" onclick="copyToClipboard('user-turn${turnCounter + 1}')">Copy</button>
+                    </div>
                 </div>
-                <div class="source-column">
+                <div class="turn-section">
+                    <label for="bot-turn${turnCounter + 1}">Bot:</label>
+                    <div class="input-container">
+                        <textarea name="bot-turn${turnCounter + 1}" id="bot-turn${turnCounter + 1}"></textarea>
+                        <button type="button" onclick="copyToClipboard('bot-turn${turnCounter + 1}')">Copy</button>
+                    </div>
+                </div>
+                <div class="turn-section">
+                    <label for="branding${turnCounter + 1}">Branding:</label>
+                    <div class="input-container">
+                        <input type="checkbox" name="branding${turnCounter + 1}" id="branding${turnCounter + 1}" onchange="updateBrandingColor(this, ${turnCounter + 1})">
+                        <label class="branding-label" for="branding${turnCounter + 1}">Branding</label>
+                    </div>
+                </div>
+                <div class="turn-section">
                     <label for="source-link${turnCounter + 1}">Source Link:</label>
-                    <textarea name="source-link${turnCounter + 1}" id="source-link${turnCounter + 1}"></textarea>
-                    <button type="button" onclick="copyToClipboard('source-link${turnCounter + 1}')">Copy</button>
+                    <div class="input-container">
+                        <textarea name="source-link${turnCounter + 1}" id="source-link${turnCounter + 1}"></textarea>
+                        <button type="button" onclick="copyToClipboard('source-link${turnCounter + 1}')">Copy</button>
+                    </div>
+                </div>
+                <div class="turn-section">
                     <label for="source-research${turnCounter + 1}">Source Research:</label>
-                    <textarea name="source-research${turnCounter + 1}" id="source-research${turnCounter + 1}"></textarea>
-                    <button type="button" onclick="copyToClipboard('source-research${turnCounter + 1}')">Copy</button>
+                    <div class="input-container">
+                        <textarea name="source-research${turnCounter + 1}" id="source-research${turnCounter + 1}"></textarea>
+                        <button type="button" onclick="copyToClipboard('source-research${turnCounter + 1}')">Copy</button>
+                    </div>
                 </div>
             `;
 
@@ -132,7 +224,7 @@
         function updateBrandingColor(checkbox, turnNumber) {
             const userTextarea = document.getElementById(`user-turn${turnNumber}`);
             const botTextarea = document.getElementById(`bot-turn${turnNumber}`);
-            const brandingLabel = document.querySelector(`label[for="branding${turnNumber}"]`);
+            const brandingLabel = document.querySelector(`label.branding-label[for="branding${turnNumber}"]`);
 
             if (checkbox.checked) {
                 if (userTextarea.value.includes('<brand>') || botTextarea.value.includes('<brand>')) {
