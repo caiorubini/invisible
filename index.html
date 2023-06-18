@@ -116,6 +116,31 @@
         function changeButtonText() {
             document.getElementById('submit-button').textContent = 'Done';
         }
+        
+        document.getElementById('submit-button').addEventListener('click', function(e) {
+            e.preventDefault();
+        
+            // Transform form data into an object
+            let formData = new FormData(document.getElementById('myForm'));
+            let data = Object.fromEntries(formData.entries());
+        
+            // Post data to Google App Script
+            fetch('https://script.google.com/macros/s/AKfycbw94Dtkz6K6BObIQews9631CePXSdIKJ7lcUpK1QN7pINhUR_Lk2bUcqyp-X_RNNtUo/exec', {
+                method: 'POST',
+                mode: 'no-cors', // no-cors, cors, *same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                redirect: 'follow', // manual, *follow, error
+                body: JSON.stringify(data)
+            }).then(function(response) {
+                // You can add some actions for response handling here
+                console.log(response);
+            });
+        });
+        
 
         document.getElementById('add-turn-button').addEventListener('click', function() {
             let turnCounter = document.querySelectorAll('.input-field').length - 1;
