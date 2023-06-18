@@ -38,7 +38,6 @@
 
         .bot-textarea {
             background-color: #A4C0E1;
-            color: #747474;
             border-radius: 5px;
         }
 
@@ -61,7 +60,7 @@
         }
 
         .gray-input {
-            background-color: #3B3B3B;
+            background-color: #4A4A4A;
             color: #E4E4E4;
             outline: none;
             border-radius: 5px;
@@ -119,12 +118,12 @@
         }
 
         document.getElementById('add-turn-button').addEventListener('click', function() {
-            let turnCounter = document.querySelectorAll('.input-field').length - 3;
+            let turnCounter = document.querySelectorAll('.input-field').length - 1;
 
             var turnHTML = document.createElement('div');
             turnHTML.classList.add('input-field');
             turnHTML.innerHTML = `
-                <label for="userTurn${turnCounter + 1}">Turn ${turnCounter + 1}</label><br>User:
+                <label for="userTurn${turnCounter + 1}"><b>Turn ${turnCounter + 1}</b></label><br>User:
                 <textarea name="userTurn${turnCounter + 1}" id="userTurn${turnCounter + 1}" class="user-textarea" required></textarea>
                 <button type="button" onclick="copyToClipboard('userTurn${turnCounter + 1}')">Copy</button>
                 <label for="botTurn${turnCounter + 1}">Bot:</label>
