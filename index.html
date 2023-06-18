@@ -35,12 +35,24 @@
             resize: none;
         }
 
+        .bot-textarea {
+            background-color: cyan;
+        }
+
+        .user-textarea {
+            background-color: lavender;
+        }
+
         input[type="text"] {
             width: 100%;
             margin: 10px 0;
             padding: 10px;
             box-sizing: border-box;
             font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .gray-input {
+            background-color: darkgray;
         }
 
         button {
@@ -57,18 +69,6 @@
             outline: none;
         }
 
-        .bot-textarea {
-            background-color: green;
-        }
-
-        .gray-input {
-            background-color: gray;
-        }
-
-        .button-done {
-            background-color: blue; 
-        }
-
         #countdown {
             font-size: 20px;
             font-weight: bold;
@@ -83,61 +83,35 @@
     <form id="myForm">
         <div class="input-field">
             <label for="userPersonality">User Personality:</label>
-            <textarea name="userPersonality" id="userPersonality" required></textarea>
+            <textarea name="userPersonality" id="userPersonality" class="user-textarea" required></textarea>
             <button type="button" onclick="copyToClipboard('userPersonality')">Copy</button>
         </div>
         <div class="input-field">
             <label for="objective">Objective:</label>
-            <textarea name="objective" id="objective" required></textarea>
+            <textarea name="objective" id="objective" class="user-textarea" required></textarea>
             <button type="button" onclick="copyToClipboard('objective')">Copy</button>
         </div>
         <div class="input-field">
             <label for="backstory">Backstory:</label>
-            <textarea name="backstory" id="backstory"></textarea>
+            <textarea name="backstory" id="backstory" class="user-textarea"></textarea>
             <button type="button" onclick="copyToClipboard('backstory')">Copy</button>
         </div>
 
-        <div id="turns-container"></div>
+        <div id="turns-container">
+        </div>
 
-        <button id="add-turn-button" type="button">Add Turn</button>
-        <button type="button" id="submit-button">Submit</button>
+        <button type="button" id="add-turn-button">Add Turn</button>
     </form>
 
     <script>
-        document.getElementById('submit-button').addEventListener('click', function(e) {
-            e.preventDefault();
-            this.textContent = "Done";
-            this.classList.add("button-done");
-        
-            // Transform form data into an object
-            let formData = new FormData(document.getElementById('myForm'));
-            let data = Object.fromEntries(formData.entries());
-        
-            // Post data to Google App Script
-            fetch('https://script.google.com/macros/s/AKfycbw94Dtkz6K6BObIQews9631CePXSdIKJ7lcUpK1QN7pINhUR_Lk2bUcqyp-X_RNNtUo/exec', {
-                method: 'POST',
-                mode: 'no-cors', // no-cors, cors, *same-origin
-                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-                credentials: 'same-origin', // include, *same-origin, omit
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                redirect: 'follow', // manual, *follow, error
-                body: JSON.stringify(data)
-            }).then(function(response) {
-                // You can add some actions for response handling here
-                console.log(response);
-            });
-        });
-
         document.getElementById('add-turn-button').addEventListener('click', function() {
             let turnCounter = document.querySelectorAll('.input-field').length - 3;
-        
+
             var turnHTML = document.createElement('div');
             turnHTML.classList.add('input-field');
             turnHTML.innerHTML = `
                 <label for="userTurn${turnCounter + 1}">Turn ${turnCounter + 1} - User:</label>
-                <textarea name="userTurn${turnCounter + 1}" id="userTurn${turnCounter + 1}" required></textarea>
+                <textarea name="userTurn${turnCounter + 1}" id="userTurn${turnCounter + 1}" class="user-textarea" required></textarea>
                 <button type="button" onclick="copyToClipboard('userTurn${turnCounter + 1}')">Copy</button>
                 <label for="botTurn${turnCounter + 1}">Bot:</label>
                 <textarea name="botTurn${turnCounter + 1}" id="botTurn${turnCounter + 1}" class="bot-textarea" required></textarea>
@@ -149,7 +123,7 @@
                 <textarea name="sourceResearch${turnCounter + 1}" id="sourceResearch${turnCounter + 1}" class="gray-input" required></textarea>
                 <button type="button" onclick="copyToClipboard('sourceResearch${turnCounter + 1}')">Copy</button>
             `;
-        
+
             document.getElementById('turns-container').appendChild(turnHTML);
         });
 
@@ -158,32 +132,10 @@
             copyText.select();
             copyText.setSelectionRange(0, 99999); // For mobile devices
             document.execCommand("copy");
-        
+
             var copyButton = document.querySelector(`button[onclick="copyToClipboard('${elementId}')"]`);
-            copyButton.textContent = "Copied!";
-            setTimeout(function() {
-                copyButton.textContent = "Copy";
-            }, 3000);
+            copyButton.textContent = '✓';
         }
-
-        // Start the countdown timer 
-        var countdownDate = new Date().getTime() + 1 * 60 * 60 * 1000; // 1 hour from now
-
-        var x = setInterval(function() {
-            var now = new Date().getTime();
-            var distance = countdownDate - now;
-
-            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById("countdown").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
-
-            if (distance < 0) {
-                clearInterval(x);
-                document.getElementById("countdown").innerHTML = "EXPIRED";
-            }
-        }, 1000);
     </script>
 </body>
 </html>
