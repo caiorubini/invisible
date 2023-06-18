@@ -96,13 +96,13 @@
     <form id="myForm">
         <div class="input-field">
             <label for="userPersonality">User Personality:</label>
-            <textarea name="userPersonality" id="userPersonality" class="intro-textarea" required></textarea>
+            <textarea name="userPersonality" id="userPersonality" class="intro-textarea" spellcheck="true" required></textarea>
             <button type="button" onclick="copyToClipboard('userPersonality')">Copy</button>
             <label for="objective">Objective:</label>
-            <textarea name="objective" id="objective" class="intro-textarea" required></textarea>
+            <textarea name="objective" id="objective" class="intro-textarea" spellcheck="true" required></textarea>
             <button type="button" onclick="copyToClipboard('objective')">Copy</button>
             <label for="backstory">Backstory:</label>
-            <textarea name="backstory" id="backstory" class="intro-textarea"></textarea>
+            <textarea name="backstory" id="backstory" class="intro-textarea" spellcheck="true"></textarea>
             <button type="button" onclick="copyToClipboard('backstory')">Copy</button>
         </div>
 
@@ -149,16 +149,16 @@
             turnHTML.classList.add('input-field');
             turnHTML.innerHTML = `
                 <label for="userTurn${turnCounter + 1}"><b>Turn ${turnCounter + 1}</b></label><br>User:
-                <textarea name="userTurn${turnCounter + 1}" id="userTurn${turnCounter + 1}" class="user-textarea" required></textarea>
+                <textarea name="userTurn${turnCounter + 1}" id="userTurn${turnCounter + 1}" class="user-textarea" spellcheck="true" required></textarea>
                 <button type="button" onclick="copyToClipboard('userTurn${turnCounter + 1}')">Copy</button>
                 <label for="botTurn${turnCounter + 1}">Bot:</label>
-                <textarea name="botTurn${turnCounter + 1}" id="botTurn${turnCounter + 1}" class="bot-textarea" required></textarea>
+                <textarea name="botTurn${turnCounter + 1}" id="botTurn${turnCounter + 1}" class="bot-textarea" spellcheck="true" required></textarea>
                 <button type="button" onclick="copyToClipboard('botTurn${turnCounter + 1}')">Copy</button>
                 <label for="sourceLink${turnCounter + 1}">Source Link:</label>
-                <input type="text" name="sourceLink${turnCounter + 1}" id="sourceLink${turnCounter + 1}" class="gray-input" spellcheck="false" required>
+                <textarea type="text" name="sourceLink${turnCounter + 1}" id="sourceLink${turnCounter + 1}" class="gray-input" spellcheck="false"></textarea>
                 <button type="button" onclick="copyToClipboard('sourceLink${turnCounter + 1}')">Copy</button>
                 <label for="sourceResearch${turnCounter + 1}">Source Research:</label>
-                <textarea name="sourceResearch${turnCounter + 1}" id="sourceResearch${turnCounter + 1}" class="gray-input" spellcheck="false" required></textarea>
+                <textarea name="sourceResearch${turnCounter + 1}" id="sourceResearch${turnCounter + 1}" class="gray-input" spellcheck="false"></textarea>
                 <button type="button" onclick="copyToClipboard('sourceResearch${turnCounter + 1}')">Copy</button>
             `;
 
