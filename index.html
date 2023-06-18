@@ -2,6 +2,7 @@
 <html>
 <head>
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="icon" type="image/png" href="favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -17,112 +18,47 @@
 
         .input-field {
             margin-bottom: 20px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .input-field label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .input-field textarea,
-        .input-field input[type="text"] {
-            width: 100%;
-            margin: 10px 0;
-            padding: 10px;
-            box-sizing: border-box;
-            font-family: 'Space Grotesk', sans-serif;
-            background-color: #2c2c2c;
-            border: none;
-            color: #f5f5f5;
-        }
-
-        .input-field button {
-            display: inline-block;
-            padding: 10px 20px;
-            font-family: 'Space Grotesk', sans-serif;
-            background-color: #333333;
-            color: #f5f5f5;
-            border: none;
-            border-radius: 5px;
-        }
-
-        .input-field .input-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .input-field .input-container textarea {
-            flex: 1;
-        }
-
-        .input-field .input-container button {
-            margin-left: 10px;
-        }
-
-        button {
-            display: inline-block;
-            padding: 10px 20px;
-            font-family: 'Space Grotesk', sans-serif;
-            background-color: #333333;
-            color: #f5f5f5;
-            border: none;
-            border-radius: 5px;
-        }
-
-        button:hover {
-            background-color: #444444;
-            cursor: pointer;
-        }
-
-        .turn-number {
-            font-weight: bold;
-            color: white;
-        }
-
-        input[type="checkbox"]:not(:checked) + label.branding-label {
-            color: red;
-        }
-
-        input[type="checkbox"] + label.branding-label::before {
-            content: '';
-            display: inline-block;
-            width: 18px;
-            height: 18px;
-            background-color: #333333;
-            border: 2px solid #f5f5f5;
-            margin-right: 5px;
-            border-radius: 3px;
-            vertical-align: middle;
-        }
-
-        input[type="checkbox"]:checked + label.branding-label::before {
-            background-color: #f5f5f5;
-        }
-
-        .turn-section {
-            margin-bottom: 20px;
             padding: 20px;
             background-color: #333333;
             border-radius: 10px;
         }
 
-        .turn-section .turn-number {
-            display: inline-block;
-            padding: 5px 10px;
-            background-color: #f5f5f5;
-            color: #222222;
-            font-weight: bold;
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin: 10px 0;
+            padding: 10px;
+            box-sizing: border-box;
+            font-family: 'Space Grotesk', sans-serif;
+            resize: none;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            box-sizing: border-box;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        button {
+            display: block;
+            border: none;
+            width: 100%;
+            background-color: #4d4c4c;
+            color: #ffffff;
+            padding: 6px;
             border-radius: 5px;
+            box-sizing: border-box;
+            font-family: 'Space Grotesk', sans-serif;
+            margin: 5px 0;
+            outline: none;
         }
 
         #countdown {
             font-size: 20px;
             font-weight: bold;
-            text-align: center;
+            text-align: left;
             margin-bottom: 20px;
         }
     </style>
@@ -130,87 +66,75 @@
 <body>
     <div id="countdown"></div>
 
-    <form action="https://script.google.com/macros/s/AKfycbzdVUvKMmVr5vuCtJ-LHt3TI71KvZcxzBmaqSsUTuVy8K5MfEEqlAjvDA7YN9B8Ly-k/exec?timestamp=${new Date().getTime()}" method="POST">
+    <form id="myForm">
         <div class="input-field">
-            <div class="turn-section">
-                <label for="user-personality">User Personality:</label>
-                <div class="input-container">
-                    <textarea name="user-personality" id="user-personality"></textarea>
-                    <button type="button" onclick="copyToClipboard('user-personality')">📋</button>
-                </div>
-            </div>
+            <label for="userPersonality">User Personality:</label>
+            <textarea name="userPersonality" id="userPersonality" required></textarea>
+            <button type="button" onclick="copyToClipboard('userPersonality')">Copy</button>
         </div>
-
         <div class="input-field">
-            <div class="turn-section">
-                <label for="objective">Objective:</label>
-                <div class="input-container">
-                    <textarea name="objective" id="objective"></textarea>
-                    <button type="button" onclick="copyToClipboard('objective')">📋</button>
-                </div>
-            </div>
+            <label for="objective">Objective:</label>
+            <textarea name="objective" id="objective" required></textarea>
+            <button type="button" onclick="copyToClipboard('objective')">Copy</button>
         </div>
-
         <div class="input-field">
-            <div class="turn-section">
-                <label for="backstory">Backstory:</label>
-                <div class="input-container">
-                    <textarea name="backstory" id="backstory"></textarea>
-                    <button type="button" onclick="copyToClipboard('backstory')">📋</button>
-                </div>
-            </div>
+            <label for="backstory">Backstory:</label>
+            <textarea name="backstory" id="backstory"></textarea>
+            <button type="button" onclick="copyToClipboard('backstory')">Copy</button>
         </div>
 
         <div id="turns-container"></div>
 
         <button id="add-turn-button" type="button">Add Turn</button>
-        <button type="submit">Submit</button>
+        <button type="button" id="submit-button">Submit</button>
     </form>
 
     <script>
+        
+        document.getElementById('submit-button').addEventListener('click', function(e) {
+            e.preventDefault();
+        
+            // Transform form data into an object
+            let formData = new FormData(document.getElementById('myForm'));
+            let data = Object.fromEntries(formData.entries());
+        
+            // Post data to Google App Script
+            fetch('https://script.google.com/macros/s/AKfycbw94Dtkz6K6BObIQews9631CePXSdIKJ7lcUpK1QN7pINhUR_Lk2bUcqyp-X_RNNtUo/exec', {
+                method: 'POST',
+                mode: 'no-cors', // no-cors, cors, *same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                redirect: 'follow', // manual, *follow, error
+                body: JSON.stringify(data)
+            }).then(function(response) {
+                // You can add some actions for response handling here
+                console.log(response);
+            });
+        });
+        
         document.getElementById('add-turn-button').addEventListener('click', function() {
-            let turnCounter = document.querySelectorAll('.turn-section').length;
-
+            let turnCounter = document.querySelectorAll('.input-field').length - 3;
+        
             var turnHTML = document.createElement('div');
             turnHTML.classList.add('input-field');
             turnHTML.innerHTML = `
-                <div class="turn-section">
-                    <label for="user-turn${turnCounter + 1}">Turn <span class="turn-number">${turnCounter + 1}</span> - User:</label>
-                    <div class="input-container">
-                        <textarea name="user-turn${turnCounter + 1}" id="user-turn${turnCounter + 1}"></textarea>
-                        <button type="button" onclick="copyToClipboard('user-turn${turnCounter + 1}')">📋</button>
-                    </div>
-                </div>
-                <div class="turn-section">
-                    <label for="bot-turn${turnCounter + 1}">Bot:</label>
-                    <div class="input-container">
-                        <textarea name="bot-turn${turnCounter + 1}" id="bot-turn${turnCounter + 1}"></textarea>
-                        <button type="button" onclick="copyToClipboard('bot-turn${turnCounter + 1}')">📋</button>
-                    </div>
-                </div>
-                <div class="turn-section">
-                    <label for="branding${turnCounter + 1}">Branding:</label>
-                    <div class="input-container">
-                        <input type="checkbox" name="branding${turnCounter + 1}" id="branding${turnCounter + 1}" onchange="updateBrandingColor(this, ${turnCounter + 1})">
-                        <label class="branding-label" for="branding${turnCounter + 1}">Branding</label>
-                    </div>
-                </div>
-                <div class="turn-section">
-                    <label for="source-link${turnCounter + 1}">Source Link:</label>
-                    <div class="input-container">
-                        <textarea name="source-link${turnCounter + 1}" id="source-link${turnCounter + 1}"></textarea>
-                        <button type="button" onclick="copyToClipboard('source-link${turnCounter + 1}')">📋</button>
-                    </div>
-                </div>
-                <div class="turn-section">
-                    <label for="source-research${turnCounter + 1}">Source Research:</label>
-                    <div class="input-container">
-                        <textarea name="source-research${turnCounter + 1}" id="source-research${turnCounter + 1}"></textarea>
-                        <button type="button" onclick="copyToClipboard('source-research${turnCounter + 1}')">📋</button>
-                    </div>
-                </div>
+                <label for="userTurn${turnCounter + 1}">Turn ${turnCounter + 1} - User:</label>
+                <textarea name="userTurn${turnCounter + 1}" id="userTurn${turnCounter + 1}" required></textarea>
+                <button type="button" onclick="copyToClipboard('userTurn${turnCounter + 1}')">Copy</button>
+                <label for="botTurn${turnCounter + 1}">Bot:</label>
+                <textarea name="botTurn${turnCounter + 1}" id="botTurn${turnCounter + 1}" required></textarea>
+                <button type="button" onclick="copyToClipboard('botTurn${turnCounter + 1}')">Copy</button>
+                <label for="sourceLink${turnCounter + 1}">Source Link:</label>
+                <input type="text" name="sourceLink${turnCounter + 1}" id="sourceLink${turnCounter + 1}" required>
+                <button type="button" onclick="copyToClipboard('sourceLink${turnCounter + 1}')">Copy</button>
+                <label for="sourceResearch${turnCounter + 1}">Source Research:</label>
+                <textarea name="sourceResearch${turnCounter + 1}" id="sourceResearch${turnCounter + 1}" required></textarea>
+                <button type="button" onclick="copyToClipboard('sourceResearch${turnCounter + 1}')">Copy</button>
             `;
-
+        
             document.getElementById('turns-container').appendChild(turnHTML);
         });
 
@@ -219,26 +143,11 @@
             copyText.select();
             copyText.setSelectionRange(0, 99999); // For mobile devices
             document.execCommand("copy");
-
+        
             var copyButton = document.querySelector(`button[onclick="copyToClipboard('${elementId}')"]`);
             copyButton.innerHTML = '✓';
         }
 
-        function updateBrandingColor(checkbox, turnNumber) {
-            const userTextarea = document.getElementById(`user-turn${turnNumber}`);
-            const botTextarea = document.getElementById(`bot-turn${turnNumber}`);
-            const brandingLabel = document.querySelector(`label.branding-label[for="branding${turnNumber}"]`);
-
-            if (checkbox.checked) {
-                if (userTextarea.value.includes('<brand>') || botTextarea.value.includes('<brand>')) {
-                    brandingLabel.style.color = 'black';
-                } else {
-                    brandingLabel.style.color = 'red';
-                }
-            } else {
-                brandingLabel.style.color = 'black';
-            }
-        }
 
         // 1-hour countdown timer
         var countDownDate = new Date().getTime() + 60 * 60 * 1000;
