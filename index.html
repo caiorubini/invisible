@@ -38,10 +38,15 @@
 
         .bot-textarea {
             background-color: #A4C0E1;
+            color: #747474;
         }
 
         .user-textarea {
             background-color: #DBB3B6;
+        }
+
+        .intro-textarea {
+            background-color: #DADADA;
         }
 
         input[type="text"] {
@@ -62,11 +67,11 @@
             width: 100%;
             background-color: #4d4c4c;
             color: #E4E4E4;
-            padding: 10px;
+            padding: 14px;
             border-radius: 5px;
             box-sizing: border-box;
             font-family: 'Space Grotesk', sans-serif;
-            margin: 5px 0;
+            margin: 3px 0 5px;
             outline: none;
         }
 
@@ -85,17 +90,13 @@
     <form id="myForm">
         <div class="input-field">
             <label for="userPersonality">User Personality:</label>
-            <textarea name="userPersonality" id="userPersonality" class="user-textarea" required></textarea>
+            <textarea name="userPersonality" id="userPersonality" class="intro-textarea" required></textarea>
             <button type="button" onclick="copyToClipboard('userPersonality')">Copy</button>
-        </div>
-        <div class="input-field">
             <label for="objective">Objective:</label>
-            <textarea name="objective" id="objective" class="user-textarea" required></textarea>
+            <textarea name="objective" id="objective" class="intro-textarea" required></textarea>
             <button type="button" onclick="copyToClipboard('objective')">Copy</button>
-        </div>
-        <div class="input-field">
             <label for="backstory">Backstory:</label>
-            <textarea name="backstory" id="backstory" class="user-textarea"></textarea>
+            <textarea name="backstory" id="backstory" class="intro-textarea"></textarea>
             <button type="button" onclick="copyToClipboard('backstory')">Copy</button>
         </div>
 
@@ -116,7 +117,8 @@
             var turnHTML = document.createElement('div');
             turnHTML.classList.add('input-field');
             turnHTML.innerHTML = `
-                <label for="userTurn${turnCounter + 1}">Turn ${turnCounter + 1} - User:</label>
+                <label for="userTurn${turnCounter + 1}">Turn ${turnCounter + 1}</label>
+                <label for="userTurn${turnCounter + 1}">User:</label>
                 <textarea name="userTurn${turnCounter + 1}" id="userTurn${turnCounter + 1}" class="user-textarea" required></textarea>
                 <button type="button" onclick="copyToClipboard('userTurn${turnCounter + 1}')">Copy</button>
                 <label for="botTurn${turnCounter + 1}">Bot:</label>
@@ -153,7 +155,7 @@
             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            document.getElementById("countdown").innerHTML = "Time left: " + minutes + "m " + seconds + "s";
+            document.getElementById("countdown").innerHTML = + minutes + "m " + seconds + "s";
 
             if (distance < 0) {
                 clearInterval(x);
