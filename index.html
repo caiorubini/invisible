@@ -122,26 +122,28 @@
     </form>
 
     <script>
+    function addKeydownListenerToTextareas() {
+        const textareas = document.getElementsByTagName('textarea');
+        for(let i = 0; i < textareas.length; i++) {
+            textareas[i].addEventListener('keydown', function(e) {
+                if((e.ctrlKey || e.metaKey) && e.key === 'b') {
+                    e.preventDefault();
+                    let cursorPos = e.target.selectionStart;
+                    let textBefore = e.target.value.substring(0,  cursorPos);
+                    let textAfter  = e.target.value.substring(cursorPos, e.target.value.length);
+                    e.target.value = textBefore + "<brand></brand>" + textAfter;
+                    let newCursorPos = cursorPos + "<brand>".length;
+                    e.target.setSelectionRange(newCursorPos, newCursorPos);
+                }
+            });
+        }
+    }
+
         /* NEW FUNCTION */
         document.addEventListener('DOMContentLoaded', (event) => {
-            const textareas = document.getElementsByTagName('textarea');
-            for(let i = 0; i < textareas.length; i++) {
-                textareas[i].addEventListener('keydown', function(e) {
-                    // Check for our key combination
-                    if((e.ctrlKey || e.metaKey) && e.key === 'b') {
-                        e.preventDefault();
-                        let cursorPos = e.target.selectionStart;
-                        let textBefore = e.target.value.substring(0,  cursorPos);
-                        let textAfter  = e.target.value.substring(cursorPos, e.target.value.length);
-                        e.target.value = textBefore + "<brand></brand>" + textAfter;
-
-                        // Position cursor between the tags
-                        let newCursorPos = cursorPos + "<brand>".length;
-                        e.target.setSelectionRange(newCursorPos, newCursorPos);
-                    }
-                });
-            }
+            addKeydownListenerToTextareas();
         });
+
         /* END NEW FUNCTION */
         function changeButtonText() {
             document.getElementById('submit-button').textContent = 'Done';
@@ -192,6 +194,7 @@
             `;
 
             document.getElementById('turns-container').appendChild(turnHTML);
+            addKeydownListenerToTextareas();
         });
 
         function copyToClipboard(elementId) {
