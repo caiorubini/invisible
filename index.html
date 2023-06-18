@@ -90,9 +90,16 @@
             text-align: left;
             margin-bottom: 20px;
         }
+
+        p.disclaimer {
+            font-size: 14px; 
+            color: #E4E4E4; 
+            font-family: 'Space Grotesk', sans-serif;
+        }
     </style>
 </head>
 <body>
+    <p class="disclaimer">To add brand markups, use ⌘+b on Mac or ctrl+b on Windows.</p>
     <div id="countdown"></div>
 
     <form id="myForm">
@@ -115,6 +122,27 @@
     </form>
 
     <script>
+        /* NEW FUNCTION */
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const textareas = document.getElementsByTagName('textarea');
+            for(let i = 0; i < textareas.length; i++) {
+                textareas[i].addEventListener('keydown', function(e) {
+                    // Check for our key combination
+                    if((e.ctrlKey || e.metaKey) && e.key === 'b') {
+                        e.preventDefault();
+                        let cursorPos = e.target.selectionStart;
+                        let textBefore = e.target.value.substring(0,  cursorPos);
+                        let textAfter  = e.target.value.substring(cursorPos, e.target.value.length);
+                        e.target.value = textBefore + "<brand></brand>" + textAfter;
+
+                        // Position cursor between the tags
+                        let newCursorPos = cursorPos + "<brand>".length;
+                        e.target.setSelectionRange(newCursorPos, newCursorPos);
+                    }
+                });
+            }
+        });
+        /* END NEW FUNCTION */
         function changeButtonText() {
             document.getElementById('submit-button').textContent = 'Done';
         }
@@ -142,7 +170,6 @@
                 console.log(response);
             });
         });
-        
 
         document.getElementById('add-turn-button').addEventListener('click', function() {
             let turnCounter = document.querySelectorAll('.input-field').length - 1;
