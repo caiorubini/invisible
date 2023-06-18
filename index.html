@@ -5,12 +5,13 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Space Grotesk', sans-serif;
-            background-color: #222222;
-            color: #f5f5f5;
+            background-color: #363636;
+            color: #E4E4E4;
             width: 90%;
             max-width: 700px;
             margin: 0 auto;
@@ -21,7 +22,7 @@
         .input-field {
             margin-bottom: 20px;
             padding: 20px;
-            background-color: #333333;
+            background-color: #3B3B3B;
             border-radius: 10px;
         }
 
@@ -36,11 +37,11 @@
         }
 
         .bot-textarea {
-            background-color: cyan;
+            background-color: #A4C0E1;
         }
 
         .user-textarea {
-            background-color: lavender;
+            background-color: #DBB3B6;
         }
 
         input[type="text"] {
@@ -52,7 +53,7 @@
         }
 
         .gray-input {
-            background-color: darkgray;
+            background-color: #3B3B3B;
         }
 
         button {
@@ -60,8 +61,8 @@
             border: none;
             width: 100%;
             background-color: #4d4c4c;
-            color: #ffffff;
-            padding: 6px;
+            color: #E4E4E4;
+            padding: 10px;
             border-radius: 5px;
             box-sizing: border-box;
             font-family: 'Space Grotesk', sans-serif;
@@ -72,6 +73,7 @@
         #countdown {
             font-size: 20px;
             font-weight: bold;
+            color: #E4E4E4;
             text-align: left;
             margin-bottom: 20px;
         }
@@ -97,13 +99,17 @@
             <button type="button" onclick="copyToClipboard('backstory')">Copy</button>
         </div>
 
-        <div id="turns-container">
-        </div>
+        <div id="turns-container"></div>
 
-        <button type="button" id="add-turn-button">Add Turn</button>
+        <button id="add-turn-button" type="button">Add Turn</button>
+        <button type="button" id="submit-button" onclick="changeButtonText()">Submit</button>
     </form>
 
     <script>
+        function changeButtonText() {
+            document.getElementById('submit-button').textContent = 'Done';
+        }
+
         document.getElementById('add-turn-button').addEventListener('click', function() {
             let turnCounter = document.querySelectorAll('.input-field').length - 3;
 
@@ -136,6 +142,24 @@
             var copyButton = document.querySelector(`button[onclick="copyToClipboard('${elementId}')"]`);
             copyButton.textContent = '✓';
         }
+
+        // 1-hour countdown timer
+        var countDownDate = new Date().getTime() + 60 * 60 * 1000;
+
+        var x = setInterval(function() {
+            var now = new Date().getTime();
+            var distance = countDownDate - now;
+
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").innerHTML = "Time left: " + minutes + "m " + seconds + "s";
+
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("countdown").innerHTML = "TIME UP";
+            }
+        }, 1000);
     </script>
 </body>
 </html>
