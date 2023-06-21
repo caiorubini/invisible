@@ -122,23 +122,26 @@
     </form>
 
     <script>
+    function onKeydown(e) {
+        if((e.ctrlKey || e.metaKey) && e.key === 'b') {
+            e.preventDefault();
+            let start = e.target.selectionStart;
+            let end = e.target.selectionEnd;
+            let selectedText = e.target.value.substring(start, end);
+            let textBefore = e.target.value.substring(0, start);
+            let textAfter  = e.target.value.substring(end, e.target.value.length);
+            let newText = textBefore + "<brand>" + selectedText + "</brand>" + textAfter;
+            e.target.value = newText;
+            let newCursorPos = end + "<brand></brand>".length;
+            e.target.setSelectionRange(newCursorPos, newCursorPos);
+        }
+    }
+    
     function addKeydownListenerToTextareas() {
         const textareas = document.getElementsByTagName('textarea');
         for(let i = 0; i < textareas.length; i++) {
-            textareas[i].addEventListener('keydown', function(e) {
-                if((e.ctrlKey || e.metaKey) && e.key === 'b') {
-                    e.preventDefault();
-                    let start = e.target.selectionStart;
-                    let end = e.target.selectionEnd;
-                    let selectedText = e.target.value.substring(start, end);
-                    let textBefore = e.target.value.substring(0, start);
-                    let textAfter  = e.target.value.substring(end, e.target.value.length);
-                    let newText = textBefore + "<brand>" + selectedText + "</brand>" + textAfter;
-                    e.target.value = newText;
-                    let newCursorPos = end + "<brand></brand>".length;
-                    e.target.setSelectionRange(newCursorPos, newCursorPos);
-                }
-            });
+            textareas[i].removeEventListener('keydown', onKeydown); // remove the previous listener
+            textareas[i].addEventListener('keydown', onKeydown); // add the new listener
         }
     }
     
