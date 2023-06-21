@@ -99,7 +99,7 @@
     </style>
 </head>
 <body>
-    <p class="disclaimer">To add brand markups, use <b>⌘+b</b> on Mac or <b>ctrl+b</b> on Windows.</p>
+    <p class="disclaimer">To add &lt;brand&gt; markups, select the text and use <b>⌘+b</b> on Mac or <b>ctrl+b</b> on Windows.</p>
     <div id="countdown"></div>
 
     <form id="myForm">
@@ -128,21 +128,25 @@
             textareas[i].addEventListener('keydown', function(e) {
                 if((e.ctrlKey || e.metaKey) && e.key === 'b') {
                     e.preventDefault();
-                    let cursorPos = e.target.selectionStart;
-                    let textBefore = e.target.value.substring(0,  cursorPos);
-                    let textAfter  = e.target.value.substring(cursorPos, e.target.value.length);
-                    e.target.value = textBefore + "<brand></brand>" + textAfter;
-                    let newCursorPos = cursorPos + "<brand>".length;
+                    let start = e.target.selectionStart;
+                    let end = e.target.selectionEnd;
+                    let selectedText = e.target.value.substring(start, end);
+                    let textBefore = e.target.value.substring(0, start);
+                    let textAfter  = e.target.value.substring(end, e.target.value.length);
+                    let newText = textBefore + "<brand>" + selectedText + "</brand>" + textAfter;
+                    e.target.value = newText;
+                    let newCursorPos = end + "<brand></brand>".length;
                     e.target.setSelectionRange(newCursorPos, newCursorPos);
                 }
             });
         }
     }
+    
+    /* NEW FUNCTION */
+    document.addEventListener('DOMContentLoaded', (event) => {
+        addKeydownListenerToTextareas();
+    });
 
-        /* NEW FUNCTION */
-        document.addEventListener('DOMContentLoaded', (event) => {
-            addKeydownListenerToTextareas();
-        });
 
         /* END NEW FUNCTION */
         function changeButtonText() {
